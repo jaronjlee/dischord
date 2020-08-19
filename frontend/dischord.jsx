@@ -2,6 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import configureStore from "./store/store";
+import Root from "./components/root"
 
 
 // TEST AJAX CALLS
@@ -17,19 +18,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const root = document.getElementById("root");
     const store = configureStore();
 
-    //TEST AJAX CALLS
-    // window.login = login;
-    // window.logout = logout;
-    // window.signup = signup;
+    //TESTING START
+
+        //TEST AJAX CALLS
+        // window.login = login;
+        // window.logout = logout;
+        // window.signup = signup;
+        
+        //TEST ACTIONS
+        window.signup = signup;
+        window.login = login;
+        window.logout = logout;
+        window.getState = store.getState;
+        window.dispatch = store.dispatch;
+        // window.dispatch(signup({username: 'jaron3', password: 123456}))
     
-    //TEST ACTIONS
-    window.signup = signup;
-    window.login = login;
-    window.logout = logout;
-    window.getState = store.getState;
-    window.dispatch = store.dispatch;
+    //TESTING END
 
-    ReactDOM.render(<h1>Welcome to Dischord</h1>, root);
+
+    ReactDOM.render(<Root store={store}/>, root);
 });
-
-// window.dispatch(signup({username: 'jaron3', password: 123456}))

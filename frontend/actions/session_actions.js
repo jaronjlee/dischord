@@ -21,6 +21,7 @@ export const receiveErrors = (errors) => ({
 });
 
 //THUNK ACTION CREATORS
+
 export const signup = (user) => dispatch => (
     APIUtil.signup(user).then(user => (
         dispatch(receiveCurrentUser(user))
