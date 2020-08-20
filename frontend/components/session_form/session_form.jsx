@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 
 class SessionForm extends React.Component {
     constructor(props) {
@@ -34,14 +36,49 @@ class SessionForm extends React.Component {
         );
     }
 
-    render() {
-        // debugger;
+    loginHeader() {
         return (
             <div>
-                <h2>{this.props.formType}</h2>
+                <h1>Welcome back!</h1>
+                <p>We're so excited to see you again!</p>
+            </div>
+        )
+    }
+
+    signUpHeader() {
+        return (
+            <div>
+                <h1>Create an account</h1>
+            </div>
+        )
+    }
+
+    loginMessage() {
+        return (
+            <Link to="/login">Already have an account?</Link>
+        )
+    }
+
+    signUpMessage() {
+        return (
+            <div>
+                <>Need an account? </>
+                <Link to="/signup">Register</Link>
+            </div>
+        )
+    }
+
+
+    render() {
+        // debugger;
+        const {formType} = this.props
+        return (
+            <div>
+                <h2> {formType == "login" ? this.loginHeader():this.signUpHeader()} </h2>
                 <form onSubmit={this.handleSubmit}>
                         <br/>
                         <label>Username
+                            <br/>
                             <input 
                                 type="text"
                                 value={this.state.username}
@@ -50,6 +87,7 @@ class SessionForm extends React.Component {
                         </label>
                         <br/>
                         <label>Password
+                            <br/>
                             <input 
                                 type="password"
                                 value={this.state.password}
@@ -57,9 +95,9 @@ class SessionForm extends React.Component {
                             />
                         </label>
                         <br/>
-                        <button type="submit" value={this.props.formType}>{this.props.formType}</button>
+                        <button type="submit" value={formType}>Continue</button>
                         <br/>
-                        Already have an account? {this.props.navLink}
+                        {formType == "login" ? this.signUpMessage():this.loginMessage()}
                         <br/>
                         {this.renderErrors()}
                 </form>
