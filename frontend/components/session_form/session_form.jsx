@@ -10,6 +10,7 @@ class SessionForm extends React.Component {
             password: ''
         };
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleDemo = this.handleDemo.bind(this);
     }
 
     update(field) {
@@ -38,8 +39,9 @@ class SessionForm extends React.Component {
 
     loginHeader() {
         return (
-            <div>
+            <div className="login-message">
                 <h1>Welcome back!</h1>
+                <br/>
                 <p>We're so excited to see you again!</p>
             </div>
         )
@@ -68,36 +70,59 @@ class SessionForm extends React.Component {
         )
     }
 
+    handleDemo(e) {
+        e.preventDefault();
+        const demoUser = {
+            username: 'demo1',
+            password: 'password'
+        }
+        this.props.processForm(demoUser)
+    }
 
     render() {
-        // debugger;
         const {formType} = this.props
         return (
-            <div>
-                <h2> {formType == "login" ? this.loginHeader():this.signUpHeader()} </h2>
-                <form onSubmit={this.handleSubmit}>
+            <div className="whole-page">
+                <header>
+                    <h1 className="dischord">Dischord</h1>
+                </header>
+                <br/>
+                <form className="session-form-box" onSubmit={this.handleSubmit}>
+                        <h2 className="session-header" > {formType == "login" ? this.loginHeader():this.signUpHeader()} </h2>
                         <br/>
-                        <label>Username
+                        <label className="login-label">USERNAME
                             <br/>
                             <input 
+                                className="input-box"
                                 type="text"
                                 value={this.state.username}
                                 onChange={this.update('username')}
                             />
                         </label>
                         <br/>
-                        <label>Password
+                        <label className="login-label">PASSWORD
                             <br/>
                             <input 
+                                className="input-box"
                                 type="password"
                                 value={this.state.password}
                                 onChange={this.update('password')}
                             />
                         </label>
                         <br/>
-                        <button type="submit" value={formType}>Continue</button>
+                        <button className="button" type="submit">Continue</button>
+                        {formType == "login" ?
+                            <button
+                                className="button"
+                                onClick={this.handleDemo}
+                                >Demo
+                                </button> : null}
                         <br/>
-                        {formType == "login" ? this.signUpMessage():this.loginMessage()}
+                        <div className="session-message">
+                            {formType == "login" ? this.signUpMessage():this.loginMessage()}
+                        </div>
+                        <br/>
+                        
                         <br/>
                         {this.renderErrors()}
                 </form>

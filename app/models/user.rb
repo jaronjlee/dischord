@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id              :bigint           not null, primary key
+#  username        :string           not null
+#  session_token   :string           not null
+#  password_digest :string           not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
 class User < ApplicationRecord
 
     validates :username, :password_digest, :session_token, presence: true
@@ -5,8 +16,20 @@ class User < ApplicationRecord
     validates :password, length: {minimum: 6}, allow_nil: true
 
     attr_reader :password
-    #ASPIRE
     after_initialize :ensure_session_token
+
+    has_many :owned_servers,
+        foreign_key: :owner_id,
+        class_name: :Server
+
+    has_many :user_servers,
+        foreign_key: :user_id,
+        class_name: :UserServer
+
+    has_many :joined_servers,
+        through: :user_servers,
+        source: :server
+
 
     def self.find_by_credentials(username, password)
         user = User.find_by(username: username)
