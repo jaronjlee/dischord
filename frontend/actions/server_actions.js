@@ -29,7 +29,6 @@ export const receiveErrors = (errors) => ({
 });
 
 //THUNK ACTION CREATORS
-
 export const requestServers = () => dispatch => (
     APIUtil.fetchServers().then(servers => (
         dispatch(receiveServers(servers))
@@ -67,3 +66,13 @@ export const deleteServer = (serverId) => dispatch => (
         dispatch(removeServer(serverId))
     ))
 );
+
+export const joinServer = (inviteCode) => dispatch => (
+    APIUtil.joinServer(inviteCode)
+        .then((server) => dispatch(receiveServer(server)))
+)
+
+export const leaveServer = (serverId) => dispatch => (
+    APIUtil.leaveServer(serverId)
+        .then(() => dispatch(removeServer(serverId)))
+)

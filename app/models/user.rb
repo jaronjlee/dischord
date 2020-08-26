@@ -22,14 +22,13 @@ class User < ApplicationRecord
         foreign_key: :owner_id,
         class_name: :Server
 
-    has_many :user_servers,
+    has_many :memberships,
         foreign_key: :user_id,
-        class_name: :UserServer
+        class_name: :Membership
 
     has_many :joined_servers,
-        through: :user_servers,
+        through: :memberships,
         source: :server
-
 
     def self.find_by_credentials(username, password)
         user = User.find_by(username: username)
@@ -57,6 +56,10 @@ class User < ApplicationRecord
     
     def ensure_session_token
         self.session_token ||= SecureRandom.urlsafe_base64
+    end
+
+    def servers
+        return self.owned_servers + self.joined_servers
     end
     
 end

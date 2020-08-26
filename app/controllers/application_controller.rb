@@ -28,4 +28,9 @@ class ApplicationController < ActionController::Base
         @current_user[:session_token] = nil
     end
 
+    ##SERVERS
+    def get_all_servers(user)
+        return user.owned_servers + user.joined_servers
+    end
+
 end

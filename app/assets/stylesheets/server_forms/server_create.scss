@@ -1,0 +1,61 @@
+.create-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.create-header {
+    display: flex;
+    justify-content: center;
+    color: #7289DA;
+    font-weight: 900;
+    font-size: 24px;
+}
+
+.create-message {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    color: #747f8d;;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.server-name {
+    color: #505660;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.input-box {
+    width: 95%;
+    height: 100%;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.form-label {
+    color: #B9BBBE;
+}
+
+.create-input-box {
+    width: 50%;
+    height: 100%;
+    font-size: 1.5em;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.create-button {
+    background-color: #7289DA;
+    color: white;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    // position: relative;
+    border-style: solid;
+    border-color: transparent;
+    margin-left: 375px;
+    margin-top: 95px;
+}

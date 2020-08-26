@@ -1,0 +1,42 @@
+.join-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.join-header {
+    display: flex;
+    justify-content: center;
+    color: #43B581;
+    font-weight: 900;
+    font-size: 24px;
+}
+
+.join-message {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    color: #747f8d;;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.join-input-box {
+    width: 95%;
+    height: 100%;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.join-button {
+    background-color: #43B581;
+    color: white;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: transparent;
+    margin-left: 375px;
+    margin-top: 95px;
+}

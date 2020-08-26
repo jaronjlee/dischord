@@ -19,6 +19,7 @@ class Api::ServersController < ApplicationController
         @server.owner_id = current_user.id
 
         if @server.save!
+            Membership.create({user_id: current_user.id, server_id: @server.id})
             render "api/servers/show"
         else
             render json: @server.errors.full_messages, status: 422
@@ -43,13 +44,31 @@ class Api::ServersController < ApplicationController
         end
     end
 
-    private
-    def server_params
-        params.require(:server).permit(:server_name, :owner_id)
+    def join
+        @server = Server.find_by_invite_code(params[:invite_code])
+        if @server
+            Membership.create({user_id: current_user.id, server_id: @server.id})
+            render "api/servers/show"
+        else
+            render json: ["Server does not exist"], status: 404
+        end
     end
 
-    def get_all_servers(user)
-        return user.owned_servers + user.joined_servers
+    def leave
+        @server = current_user.joined_servers.find(params[:id])
+
+        if @server
+            membership = Membership.find_by_membership(current_user.id, @server.id)
+            membership.destroy
+            render "api/servers/show"
+        else
+            render json: ["Membership does not exist"], status: 404
+        end
+    end
+
+    private
+    def server_params
+        params.require(:server).permit(:server_name, :owner_id, :invite_code)
     end
 
 end

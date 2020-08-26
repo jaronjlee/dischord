@@ -1,13 +1,12 @@
 # == Schema Information
 #
-# Table name: servers
+# Table name: channels
 #
-#  id          :bigint           not null, primary key
-#  server_name :string           not null
-#  owner_id    :integer          not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  invite_code :string           not null
+#  id           :bigint           not null, primary key
+#  channel_name :string           not null
+#  server_id    :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 
 # This model initially had no columns defined. If you add columns to the

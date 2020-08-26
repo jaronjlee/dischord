@@ -4,24 +4,23 @@ import ReactDOM from "react-dom";
 import configureStore from "./store/store";
 import Root from "./components/root"
 
-
-
-// TEST SERVER ACTIONS
+// CHANNEL ACTIONS
 import {
-    requestServers,
-    requestServer,
-    createServer,
-    updateServer,
-    deleteServer
-} from "./actions/server_actions"
+    requestChannels,
+    requestChannel,
+    createChannel,
+    updateChannel,
+    deleteChannel
+} from './actions/channel_actions'
 
-// TESTING START
-window.requestServers = requestServers;
-window.requestServer = requestServer;
-window.createServer = createServer;
-window.updateServer = updateServer;
-window.deleteServer = deleteServer;
-// TESTING END
+window.requestChannels = requestChannels
+window.requestChannel = requestChannel
+window.createChannel = createChannel
+window.updateChannel = updateChannel
+window.deleteChannel = deleteChannel
+// CHANNEL TESTING STOPS
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
     let store;
@@ -48,12 +47,34 @@ document.addEventListener("DOMContentLoaded", () => {
     ReactDOM.render(<Root store={store}/>, root);
 });
 
-// window.createServer({ server_name: 'server4', owner_id: 1 })
+
+
+
+
+
+// //CHANNEL TESTING
+// // // TEST CHANNEL AJAX CALLS
+// import * as channelAPIUtil from "./util/channel_api_util"
+
+// // // TEST CHANNEL AJAX CALLS
+// window.fetchChannels = channelAPIUtil.fetchChannels;
+// window.fetchChannel = channelAPIUtil.fetchChannel;
+// window.createChannel = channelAPIUtil.createChannel;
+// window.updateChannel = channelAPIUtil.updateChannel;
+// window.removeChannel = channelAPIUtil.removeChannel;
+
+
+
+
+
+
+
+
+
 
 
 
 //USER AUTH TESTING//
-
 // TEST AJAX CALLS
 // import { login, logout, signup } from "./util/session_api_util";
 
@@ -73,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // window.logout = logout;
 // window.getState = store.getState;
 // window.dispatch = store.dispatch;
-
+//USER AUTH TESTING STOPS
 
 
 
@@ -88,4 +109,36 @@ document.addEventListener("DOMContentLoaded", () => {
 // window.updateServer = serverAPIUtil.updateServer
 // window.deleteServer = serverAPIUtil.deleteServer
 
+// // TEST SERVER ACTIONS
+// import {
+//     requestServers,
+//     requestServer,
+//     createServer,
+//     updateServer,
+//     deleteServer,
+//     joinServer,
+//     leaveServer
+// } from "./actions/server_actions"
+
+// // TESTING START
+// window.requestServers = requestServers;
+// window.requestServer = requestServer;
+// window.createServer = createServer;
+// window.updateServer = updateServer;
+// window.deleteServer = deleteServer;
+// window.joinServer = joinServer;
+// window.leaveServer = leaveServer;
+// // TESTING END
+//SERVER TESTING ENDS
+
+
+
+//CHANNEL AJAX
+// TEST AJAX CALLS
+// import { login, logout, signup } from "./util/session_api_util";
+
+// // TEST AJAX CALLS
+// window.login = login;
+// window.logout = logout;
+// window.signup = signup;
 
