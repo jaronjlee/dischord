@@ -574,8 +574,7 @@ var ChannelShow = /*#__PURE__*/function (_React$Component) {
         this.props.requestMessages();
       }
 
-      ; // $('.messages-bar').scrollTop($('.messages-bar')[0].scrollHeight);
-      // this.bottom.current.scrollIntoView({behavior: 'smooth'});
+      ;
     }
   }, {
     key: "render",
@@ -593,7 +592,7 @@ var ChannelShow = /*#__PURE__*/function (_React$Component) {
           className: "message-columns"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-icon"
-        }, ":)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, message.author.slice(0, 1)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-rows"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "author"
@@ -1363,15 +1362,7 @@ var ServerShow = /*#__PURE__*/function (_React$Component) {
       } else {
         x.style.display = "none";
       }
-    } // displayCode () {
-    //     var x = document.getElementById("server-code");
-    //     if (x.style.display === "none") {
-    //         x.style.display = "block";
-    //     } else {
-    //         x.style.display = "none";
-    //     }
-    // }
-
+    }
   }, {
     key: "render",
     value: function render() {

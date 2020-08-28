@@ -42,15 +42,6 @@ class ServerShow extends React.Component {
         }
     }
 
-    // displayCode () {
-    //     var x = document.getElementById("server-code");
-    //     if (x.style.display === "none") {
-    //         x.style.display = "block";
-    //     } else {
-    //         x.style.display = "none";
-    //     }
-    // }
-
     render () {
         if (!this.props.server) return null;
         const server = this.props.server;

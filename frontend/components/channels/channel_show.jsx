@@ -29,16 +29,13 @@ class ChannelShow extends React.Component {
 
         this.props.requestChannel();
         this.props.requestMessages();
-        }
+    }
 
     componentDidUpdate(newProps) {
         if (this.props.match.params.channelId !== newProps.match.params.channelId) {
             this.props.requestChannel();
             this.props.requestMessages();
         };
-        // $('.messages-bar').scrollTop($('.messages-bar')[0].scrollHeight);
-    
-        // this.bottom.current.scrollIntoView({behavior: 'smooth'});
     }
 
     render() {
@@ -46,13 +43,11 @@ class ChannelShow extends React.Component {
         if (!this.props.messages) return null;
 
         const channel = this.props.channel;
-        
         const messages = this.props.messages.map(message => {
             return (
                 <div className="message-content" key={message.id}>
                     <div className="message-columns">
-                        {/* <div className="message-icon">{message.author.slice(0,1)}</div> */}
-                        <div className="message-icon">:)</div>
+                        <div className="message-icon">{message.author.slice(0,1)}</div>
                         <div className="message-rows">
                             <div className="author">{message.author}</div>
                             <div className="message">{message.body}</div>

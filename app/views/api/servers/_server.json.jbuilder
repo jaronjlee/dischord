@@ -1,4 +1,4 @@
-json.extract! server, :id, :server_name, :owner_id, :invite_code
+# json.extract! server, :id, :server_name, :owner_id, :invite_code
 
 json.id server.id
 json.server_name server.server_name
