@@ -9,7 +9,9 @@
 
 User.destroy_all
 Server.destroy_all
+Channel.destroy_all
 Membership.destroy_all
+Message.destroy_all
 
 User.connection.execute('ALTER SEQUENCE users_id_seq RESTART WITH 1')
 Server.connection.execute('ALTER SEQUENCE servers_id_seq RESTART WITH 1')
@@ -101,12 +103,4 @@ channel6 = Channel.create!(
     server_id: 2
 )
 
-channel7 = Channel.create!(
-    channel_name: "channel3",
-    server_id: 2
-)
 
-channel8 = Channel.create!(
-    channel_name: "channel4",
-    server_id: 2
-)
