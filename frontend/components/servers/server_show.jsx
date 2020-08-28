@@ -1,5 +1,8 @@
 import React from 'react';
 import Modal from 'react-modal';
+import { ProtectedRoute } from '../../util/route_utils';
+import { Link } from 'react-router-dom';
+import ChannelShowContainer from '../channels/channel_show_container'
 import CreateChannelFormContainer from '../channels/create_channel_form_container'
 
 class ServerShow extends React.Component {
@@ -30,16 +33,36 @@ class ServerShow extends React.Component {
         })
     }
 
+    displayCode () {
+        var x = document.getElementById("server-code");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+    // displayCode () {
+    //     var x = document.getElementById("server-code");
+    //     if (x.style.display === "none") {
+    //         x.style.display = "block";
+    //     } else {
+    //         x.style.display = "none";
+    //     }
+    // }
+
     render () {
         if (!this.props.server) return null;
         const server = this.props.server;
         const channels = this.props.channels
 
         return (
-            <div>
-                <h1>Server Name: {server.server_name}</h1>
-                <h2>Server Code: {server.invite_code}</h2>
-                <button className="create-channel" onClick={this.toggleCreateModal}>+</button>
+            <div className="channel-bar">
+                <h1 className="server-header">{server.server_name}</h1>
+                <br/>
+                <div className="create-channel" onClick={this.toggleCreateModal}>Add Channel</div>
+                <div className="display-code-button"onClick={this.displayCode}>Display invite code</div>
+                <div id="server-code">{server.invite_code}</div>
                 <div>
                     <Modal
                         id="create-modal"
@@ -70,13 +93,28 @@ class ServerShow extends React.Component {
                         <CreateChannelFormContainer server={server} closeModal={this.toggleCreateModal} />
                     </Modal>
                 </div>
-                <ul>
+                <br/>
+                <div className="text-channels">Text Channels</div>
+                <ul className="channels">
                     {channels.map((channel) => (
                         <li key={channel.id}>
-                            {channel.channel_name}
+                            <Link className="channel-link" to={`/servers/${server.id}/${channel.id}`}>{channel.channel_name}</Link>
                         </li>
                     ))}
                 </ul>
+                <div>
+                    <ProtectedRoute path="/servers/:serverId/:channelId" component={ChannelShowContainer} />
+                </div>
+                <div className="members-bar">
+                    <h1 className="member-header">Members</h1>
+                    <ul className="members-list">
+                        {server.members.map((member) => (
+                            <li className="member">
+                                {member.username}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         )
     }

@@ -1,0 +1,125 @@
+
+.server-header {
+    color: white;
+    // padding-left: 10%;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: left;
+    // background-color: #393D42;
+    position: inline;
+    color: white;
+    padding: 10px;
+    margin-left: 5px;
+    // margin: 10px;
+    // border-radius: 5px;
+    border-style: solid;
+    border-color: transparent;
+    cursor: default;
+
+    // width: 100px;
+    // height: 50px;
+    border-style: solid;
+    border-width: 1px 0px;
+    border-color: #202225;
+    top: 0;
+}
+
+.display-code-button {
+    color: white;
+    padding-left: 10%;
+    font-size: 16px;
+    text-align: center;
+    background-color: #393D42;
+    position: inline;
+    color: white;
+    padding: 5px;
+    margin: 10px;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: transparent;
+    cursor: pointer;
+}
+
+.display-code-button:hover {
+    background-color: #43B581;
+}
+
+#server-code {
+    color: white;
+    padding-left: 10%;
+    font-size: 16px;
+    text-align: center;
+    background-color: #2E3136;
+    display: none;
+    position: inline;
+    // color: #2E3136;
+    color: white;
+    padding: 5px;
+    margin: 10px;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: transparent;
+}
+
+
+.create-channel {
+    color: white;
+    padding-left: 10%;
+    font-size: 16px;
+    text-align: center;
+    background-color: #393D42;
+    position: inline;
+    color: white;
+    padding: 5px;
+    margin: 10px;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: transparent;
+}
+
+.create-channel:hover {
+    background-color: #7289DA;
+    cursor: pointer;
+}
+
+.text-channels {
+    color: white;
+    padding-left: 10%;
+    font-size: 16px;
+    // text-align: center;
+    // background-color: #393D42;
+    position: inline;
+    color: white;
+    // padding: 5px;
+    margin: 10px;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: transparent;
+}
+
+.channels li {
+    margin-top: 10%;
+    padding-left: 5%;
+    font-size: 16px;
+    border-style: solid;
+    border-color: transparent;
+    padding: 5px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.channels li:hover {
+    background-color: #393D42;
+}
+
+.channel-link {
+    color: #72767D;
+    padding-left: 10%;
+    font-size: 16px;
+}
+
+.channel-link:hover {
+    color: white;
+    background-color: #393D42;
+}

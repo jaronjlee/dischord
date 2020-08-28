@@ -30,6 +30,10 @@ class User < ApplicationRecord
         through: :memberships,
         source: :server
 
+    has_many :messages,
+        foreign_key: :author_id,
+        class_name: :Message
+
     def self.find_by_credentials(username, password)
         user = User.find_by(username: username)
         if user && user.is_password?(password)

@@ -9,7 +9,7 @@ class Api::ChannelsController < ApplicationController
 
     def show
         if current_server
-            @channel = Channel.find_by(id: params[:id])
+            @channel = Channel.find_by(id: params[:server_id])
             render "api/channels/show"
         else
             render json: ["Don't have access to this channel"], status: 400

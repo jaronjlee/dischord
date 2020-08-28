@@ -1,0 +1,51 @@
+.splash {    
+    position: absolute;
+    background-image: url("/background.jpg");
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.dischord {
+    color: white;
+}
+
+.servers-link {
+    color: white;
+}
+
+.splash-button {
+    background-color: #7289DA;
+    color: white;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: transparent;
+    cursor: pointer;
+}
+
+.login-div {
+    margin-top: 20px;
+}
+
+.splash ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.splash ul li {
+    display: inline-block;
+    padding: 8px;
+    color: white;
+}
+
+.splash-button-div {
+    position: fixed;
+    right: 0;
+}
+

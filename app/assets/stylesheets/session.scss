@@ -38,8 +38,13 @@
 .input-box {
     width: 95%;
     height: 100%;
-    font-size: 1.5em;
+    font-size: 1.25em;
     margin-bottom: 10px;
+}
+
+.input-box:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .login-label {
@@ -56,5 +61,6 @@
     position: relative;
     border-style: solid;
     border-color: transparent;
+    cursor: pointer;
 }
 

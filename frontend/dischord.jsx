@@ -4,22 +4,6 @@ import ReactDOM from "react-dom";
 import configureStore from "./store/store";
 import Root from "./components/root"
 
-// CHANNEL ACTIONS
-import {
-    requestChannels,
-    requestChannel,
-    createChannel,
-    updateChannel,
-    deleteChannel
-} from './actions/channel_actions'
-
-window.requestChannels = requestChannels
-window.requestChannel = requestChannel
-window.createChannel = createChannel
-window.updateChannel = updateChannel
-window.deleteChannel = deleteChannel
-// CHANNEL TESTING STOPS
-
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -142,3 +126,29 @@ document.addEventListener("DOMContentLoaded", () => {
 // window.logout = logout;
 // window.signup = signup;
 
+// // CHANNEL ACTIONS
+// import {
+//     requestChannels,
+//     requestChannel,
+//     createChannel,
+//     updateChannel,
+//     deleteChannel
+// } from './actions/channel_actions'
+
+// window.requestChannels = requestChannels
+// window.requestChannel = requestChannel
+// window.createChannel = createChannel
+// window.updateChannel = updateChannel
+// window.deleteChannel = deleteChannel
+// // CHANNEL TESTING STOPS
+
+
+// // MESSAGE ACTIONS
+// import {
+//     requestMessages,
+//     createMessage,
+// } from './actions/message_actions';
+
+// window.requestMessages = requestMessages;
+// window.createMessage = createMessage;
+// // MESSAGE TESTING STOPS

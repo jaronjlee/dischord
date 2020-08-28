@@ -4,20 +4,36 @@ import { Link } from 'react-router-dom';
 class Splash extends React.Component {
 
     loginButton() {
-        return <Link to="/login">Login</Link>
+        return (
+            <div className="login-div">
+                <Link className="splash-button" to="/login">Login</Link>
+            </div>
+            
+        )
     }
 
     logoutButton() {
-        return <button onClick={this.props.logout}>Logout</button>
+        return <button className="splash-button" onClick={this.props.logout}>Logout</button>
     }
 
     render () {
         const {currentUser, logout} = this.props
         
         return (
-            <div>
-                <h2>Splash Page</h2>
-                {currentUser? this.logoutButton() : this.loginButton() }
+            <div className="splash">
+                <h1 className="dischord">Dischord</h1>
+                <ul>
+                    <li>
+                        <Link className="servers-link" to={"/servers/"}>
+                            Servers
+                        </Link>
+                    </li>
+                    <li>Linkedin</li>
+                    <li>Github</li>
+                </ul>
+                <div className="splash-button-div">
+                    {currentUser ? this.logoutButton() : this.loginButton()}
+                </div>
             </div>
         )
     }
