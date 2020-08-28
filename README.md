@@ -1,5 +1,6 @@
 ## Dischord Overview
 Dischord is a clone of the live-chat app Discord. This fullstack single-page web application allows users to join servers and create chat rooms to chat with other users in real time. 
+![alt text]()
 ## Technologies
   * Backend
     * Ruby on Rails - MVC framework
