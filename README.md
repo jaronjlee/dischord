@@ -16,7 +16,9 @@ Dischord is a clone of the live-chat app Discord. This fullstack single-page web
 ### User Authentication
 Users can create an account and use the same credentials to login. Database constraints, model validations, and frontend error rendering are used to ensure a secure sign-up/login process. There is also a demo login feature that allows people visiting the web app to access the site and its features without creating an account. 
 ### Servers/Channels
-Users can create servers and invite other users to become members of their server via a server code. Users can create channels within each server to chat in. 
+Users can create servers and invite other users to become members of their server via a server code. Users can create channels within each server to chat in. \
+
+![alt text](https://raw.githubusercontent.com/jaronjlee/discord_clone/master/app/assets/images/server_invite_code.png)
 ### Live Chat
 Users can chat in real-time within each channel. The functionality is integrated using Rails Action Cable, which is Rails' implementation of WebSocket. WebSockets allow both the server and the client to push messages at any time without any relation to a previous request, resulting in live-chat. The code below sets up a ChatChannel class allowing ActionCable to receive data to create a new instance of a Message (speak) and broadcast objects to all subscribers (socket).
 ```ruby
