@@ -1,6 +1,8 @@
+## Link 
+https://dischord1.herokuapp.com/
 ## Dischord Overview
 Dischord is a clone of the live-chat app Discord. This fullstack single-page web application allows users to join servers and create chat rooms to chat with other users in real time. 
-![alt text]()
+![alt text](https://raw.githubusercontent.com/jaronjlee/discord_clone/master/app/assets/images/overview.png)
 ## Technologies
   * Backend
     * Ruby on Rails - MVC framework
