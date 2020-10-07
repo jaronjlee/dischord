@@ -4,31 +4,59 @@ import ReactDOM from "react-dom";
 import configureStore from "./store/store";
 import Root from "./components/root"
 
+// TEST SERVER AJAX CALLS
+import * as serverAPIUtil from "./util/server_api_util"
+
+// TEST SERVER ACTIONS
+import {
+    requestServers,
+    requestServer,
+    createServer,
+    updateServer,
+    deleteServer,
+    joinServer,
+    leaveServer
+} from "./actions/server_actions"
+
+// TESTING START
+window.requestServers = requestServers;
+window.requestServer = requestServer;
+window.createServer = createServer;
+window.updateServer = updateServer;
+window.deleteServer = deleteServer;
+window.joinServer = joinServer;
+window.leaveServer = leaveServer;
+// TESTING END
+// SERVER TESTING ENDS
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    let store;
-    if (window.currentUser) {
-        const preloadedState = {
-            entities: {
-                users: { [window.currentUser.id]: window.currentUser }
-            },
-            session: { id: window.currentUser.id }
-        };
-        store = configureStore(preloadedState);
-        delete window.currentUser;
-    } else {
-        store = configureStore();
-    }
+  let store;
+  if (window.currentUser) {
+    const preloadedState = {
+      entities: {
+        users: { [window.currentUser.id]: window.currentUser },
+      },
+      session: { id: window.currentUser.id },
+    };
+    store = configureStore(preloadedState);
+    delete window.currentUser;
+  } else {
+    store = configureStore();
+  }
 
-    const root = document.getElementById("root");
+  const root = document.getElementById("root");
 
-    //TESTING START
-    window.getState = store.getState;
-    window.dispatch = store.dispatch;
-    //TESTING END
+  //TESTING START
+  window.getState = store.getState;
+  window.dispatch = store.dispatch;
+  //TESTING END
 
-    ReactDOM.render(<Root store={store}/>, root);
+  // TEST SERVER AJAX CALLS
+  window.joinServer = serverAPIUtil.joinServer;
+
+
+  ReactDOM.render(<Root store={store} />, root);
 });
 
 

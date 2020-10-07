@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import ServerFormContainer from '../server_forms/create_server_form_container';
-import ServerJoinContainer from '../server_forms/joinserver_form_container';
+import ServerJoinContainer from '../server_forms/join_server_form_container';
 import ServerShowContainer from '../servers/server_show_container'
 import { ProtectedRoute } from '../../util/route_utils';
 

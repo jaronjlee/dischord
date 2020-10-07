@@ -238,7 +238,7 @@ var requestMessages = function requestMessages(channelId) {
 /*!********************************************!*\
   !*** ./frontend/actions/server_actions.js ***!
   \********************************************/
-/*! exports provided: RECEIVE_SERVERS, RECEIVE_SERVER, REMOVE_SERVER, RECEIVE_SERVER_ERRORS, receiveServers, receiveServer, removeServer, receiveErrors, requestServers, requestServer, createServer, updateServer, deleteServer, joinServer, leaveServer */
+/*! exports provided: RECEIVE_SERVERS, RECEIVE_SERVER, REMOVE_SERVER, RECEIVE_SERVER_ERRORS, CLEAR_SERVER_ERRORS, receiveServers, receiveServer, removeServer, receiveErrors, clearErrors, requestServers, requestServer, createServer, updateServer, deleteServer, joinServer, leaveServer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -247,10 +247,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SERVER", function() { return RECEIVE_SERVER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_SERVER", function() { return REMOVE_SERVER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SERVER_ERRORS", function() { return RECEIVE_SERVER_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_SERVER_ERRORS", function() { return CLEAR_SERVER_ERRORS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveServers", function() { return receiveServers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveServer", function() { return receiveServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeServer", function() { return removeServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveErrors", function() { return receiveErrors; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearErrors", function() { return clearErrors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestServers", function() { return requestServers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestServer", function() { return requestServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createServer", function() { return createServer; });
@@ -263,7 +265,8 @@ __webpack_require__.r(__webpack_exports__);
 var RECEIVE_SERVERS = "RECEIVE_SERVERS";
 var RECEIVE_SERVER = "RECEIVE_SERVER";
 var REMOVE_SERVER = "REMOVE_SERVER";
-var RECEIVE_SERVER_ERRORS = "RECEIVE_SERVER_ERRORS"; //regular action creators
+var RECEIVE_SERVER_ERRORS = "RECEIVE_SERVER_ERRORS";
+var CLEAR_SERVER_ERRORS = "CLEAR_SERVER_ERRORS"; //regular action creators
 
 var receiveServers = function receiveServers(servers) {
   return {
@@ -287,6 +290,11 @@ var receiveErrors = function receiveErrors(errors) {
   return {
     type: RECEIVE_SERVER_ERRORS,
     errors: errors
+  };
+};
+var clearErrors = function clearErrors() {
+  return {
+    type: CLEAR_SERVER_ERRORS
   };
 }; //THUNK ACTION CREATORS
 
@@ -337,6 +345,8 @@ var joinServer = function joinServer(inviteCode) {
   return function (dispatch) {
     return _util_server_api_util__WEBPACK_IMPORTED_MODULE_0__["joinServer"](inviteCode).then(function (server) {
       return dispatch(receiveServer(server));
+    }, function (err) {
+      return dispatch(receiveErrors(err.responseJSON));
     });
   };
 };
@@ -1026,7 +1036,7 @@ var CreateServerForm = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      server_name: '',
+      server_name: "",
       owner_id: _this.props.owner_id
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
@@ -1034,6 +1044,11 @@ var CreateServerForm = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(CreateServerForm, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.clearErrors();
+    }
+  }, {
     key: "update",
     value: function update(field) {
       var _this2 = this;
@@ -1053,13 +1068,23 @@ var CreateServerForm = /*#__PURE__*/function (_React$Component) {
         return _this3.props.closeModal();
       });
       this.setState({
-        server_name: ''
+        server_name: ""
       });
+    }
+  }, {
+    key: "renderErrors",
+    value: function renderErrors() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.errors.map(function (error, i) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          key: "error-".concat(i)
+        }, error);
+      }));
     }
   }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        className: "form",
         onSubmit: this.handleSubmit
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "create-header"
@@ -1071,11 +1096,11 @@ var CreateServerForm = /*#__PURE__*/function (_React$Component) {
         className: "create-input-box",
         type: "text",
         value: this.state.server_name,
-        onChange: this.update('server_name')
+        onChange: this.update("server_name")
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "create-button",
         type: "submit"
-      }, "Create")));
+      }, "Create"), this.renderErrors()));
     }
   }]);
 
@@ -1106,11 +1131,12 @@ var mapStateToProps = function mapStateToProps(state) {
   var session = state.session;
   var users = state.entities.users;
   return {
+    errors: state.errors.server,
     server: {
       server_name: "",
       owner_id: users[session.id]
     },
-    formType: 'Create'
+    formType: "Create"
   };
 };
 
@@ -1118,6 +1144,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     processForm: function processForm(server) {
       return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_1__["createServer"])(server));
+    },
+    clearErrors: function clearErrors(errors) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_1__["clearErrors"])(errors));
     }
   };
 };
@@ -1182,6 +1211,11 @@ var JoinServerForm = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(JoinServerForm, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.clearErrors();
+    }
+  }, {
     key: "update",
     value: function update(field) {
       var _this2 = this;
@@ -1201,8 +1235,17 @@ var JoinServerForm = /*#__PURE__*/function (_React$Component) {
         return _this3.props.closeModal();
       });
       this.setState({
-        inviteCode: ''
+        inviteCode: ""
       });
+    }
+  }, {
+    key: "renderErrors",
+    value: function renderErrors() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.errors.map(function (error, i) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          key: "error-".concat(i)
+        }, error);
+      }));
     }
   }, {
     key: "render",
@@ -1217,11 +1260,11 @@ var JoinServerForm = /*#__PURE__*/function (_React$Component) {
         className: "join-input-box",
         type: "text",
         value: this.state.inviteCode,
-        onChange: this.update('inviteCode')
+        onChange: this.update("inviteCode")
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "join-button",
         type: "submit"
-      }, "Join")));
+      }, "Join"), this.renderErrors()));
     }
   }]);
 
@@ -1232,10 +1275,10 @@ var JoinServerForm = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/server_forms/joinserver_form_container.jsx":
-/*!************************************************************************!*\
-  !*** ./frontend/components/server_forms/joinserver_form_container.jsx ***!
-  \************************************************************************/
+/***/ "./frontend/components/server_forms/join_server_form_container.jsx":
+/*!*************************************************************************!*\
+  !*** ./frontend/components/server_forms/join_server_form_container.jsx ***!
+  \*************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1243,7 +1286,7 @@ var JoinServerForm = /*#__PURE__*/function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
-/* harmony import */ var _server_forms_join_server_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../server_forms/join_server_form */ "./frontend/components/server_forms/join_server_form.jsx");
+/* harmony import */ var _join_server_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./join_server_form */ "./frontend/components/server_forms/join_server_form.jsx");
 
 
 
@@ -1251,7 +1294,7 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state) {
   return {
     currentUser: state.entities.users[state.session.id],
-    errors: state.errors.session
+    errors: state.errors.server
   };
 };
 
@@ -1259,11 +1302,14 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     joinServer: function joinServer(inviteCode) {
       return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_1__["joinServer"])(inviteCode));
+    },
+    clearErrors: function clearErrors(errors) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_1__["clearErrors"])(errors));
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_server_forms_join_server_form__WEBPACK_IMPORTED_MODULE_2__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_join_server_form__WEBPACK_IMPORTED_MODULE_2__["default"]));
 
 /***/ }),
 
@@ -1499,7 +1545,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js");
 /* harmony import */ var react_modal__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_modal__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _server_forms_create_server_form_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../server_forms/create_server_form_container */ "./frontend/components/server_forms/create_server_form_container.jsx");
-/* harmony import */ var _server_forms_joinserver_form_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../server_forms/joinserver_form_container */ "./frontend/components/server_forms/joinserver_form_container.jsx");
+/* harmony import */ var _server_forms_join_server_form_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../server_forms/join_server_form_container */ "./frontend/components/server_forms/join_server_form_container.jsx");
 /* harmony import */ var _servers_server_show_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../servers/server_show_container */ "./frontend/components/servers/server_show_container.jsx");
 /* harmony import */ var _util_route_utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../util/route_utils */ "./frontend/util/route_utils.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1653,7 +1699,7 @@ var ServersIndex = /*#__PURE__*/function (_React$Component) {
             zIndex: '50'
           }
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_forms_joinserver_form_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_forms_join_server_form_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
         closeModal: this.toggleJoinModal
       }))), servers.map(function (server) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
@@ -2103,12 +2149,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js");
 /* harmony import */ var _components_root__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/root */ "./frontend/components/root.jsx");
+/* harmony import */ var _util_server_api_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./util/server_api_util */ "./frontend/util/server_api_util.js");
+/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./actions/server_actions */ "./frontend/actions/server_actions.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //React
 
 
 
+ // TEST SERVER AJAX CALLS
+
+ // TEST SERVER ACTIONS
+
+ // TESTING START
+
+window.requestServers = _actions_server_actions__WEBPACK_IMPORTED_MODULE_5__["requestServers"];
+window.requestServer = _actions_server_actions__WEBPACK_IMPORTED_MODULE_5__["requestServer"];
+window.createServer = _actions_server_actions__WEBPACK_IMPORTED_MODULE_5__["createServer"];
+window.updateServer = _actions_server_actions__WEBPACK_IMPORTED_MODULE_5__["updateServer"];
+window.deleteServer = _actions_server_actions__WEBPACK_IMPORTED_MODULE_5__["deleteServer"];
+window.joinServer = _actions_server_actions__WEBPACK_IMPORTED_MODULE_5__["joinServer"];
+window.leaveServer = _actions_server_actions__WEBPACK_IMPORTED_MODULE_5__["leaveServer"]; // TESTING END
+// SERVER TESTING ENDS
 
 document.addEventListener("DOMContentLoaded", function () {
   var store;
@@ -2132,7 +2194,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.getState = store.getState;
   window.dispatch = store.dispatch; //TESTING END
+  // TEST SERVER AJAX CALLS
 
+  window.joinServer = _util_server_api_util__WEBPACK_IMPORTED_MODULE_4__["joinServer"];
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root__WEBPACK_IMPORTED_MODULE_3__["default"], {
     store: store
   }), root);
@@ -2304,10 +2368,13 @@ var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _session_errors_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./session_errors_reducer */ "./frontend/reducers/session_errors_reducer.js");
+/* harmony import */ var _server_errors_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./server_errors_reducer */ "./frontend/reducers/server_errors_reducer.js");
+
 
 
 var errorsReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  session: _session_errors_reducer__WEBPACK_IMPORTED_MODULE_1__["default"]
+  session: _session_errors_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
+  server: _server_errors_reducer__WEBPACK_IMPORTED_MODULE_2__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (errorsReducer);
 
@@ -2371,6 +2438,39 @@ var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])(
   errors: _errors_reducer__WEBPACK_IMPORTED_MODULE_3__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (rootReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/server_errors_reducer.js":
+/*!****************************************************!*\
+  !*** ./frontend/reducers/server_errors_reducer.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/server_actions */ "./frontend/actions/server_actions.js");
+
+
+var serverErrorsReducer = function serverErrorsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+
+  switch (action.type) {
+    case _actions_server_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SERVER_ERRORS"]:
+      return action.errors;
+
+    case _actions_server_actions__WEBPACK_IMPORTED_MODULE_0__["CLEAR_SERVER_ERRORS"]:
+      return [];
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (serverErrorsReducer);
 
 /***/ }),
 

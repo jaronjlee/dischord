@@ -25,10 +25,10 @@ class ChannelShow extends React.Component {
                     return this.perform("speak", data);
                 }
             }
-        );
-
-        this.props.requestChannel();
-        this.props.requestMessages();
+            );
+        
+            this.props.requestChannel();
+            this.props.requestMessages();
     }
 
     componentDidUpdate(newProps) {
