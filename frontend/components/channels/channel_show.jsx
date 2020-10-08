@@ -17,9 +17,9 @@ class ChannelShow extends React.Component {
             { channel: "ChatChannel" },//create subscription to ChatChannel
             {
                 received: data => {   //when client is subscribed, listen to channel for new data
-                    this.props.receiveMessage(data);
+                    // this.props.receiveMessage(data);
                     this.props.requestMessages();
-                    this.bottom.current.scrollIntoView({ behavior: 'smooth' });
+                    // this.bottom.current.scrollIntoView({ behavior: 'smooth' });
                 },
                 speak: function (data) { //sends data to backend
                     return this.perform("speak", data);
@@ -27,20 +27,25 @@ class ChannelShow extends React.Component {
             }
             );
         
-            this.props.requestChannel();
-            this.props.requestMessages();
+        this.props.requestChannel();
+        this.props.requestMessages();
     }
 
-    componentDidUpdate(newProps) {
-        if (this.props.match.params.channelId !== newProps.match.params.channelId) {
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.channelId !== prevProps.match.params.channelId) {
             this.props.requestChannel();
             this.props.requestMessages();
+            // this.bottom.current.scrollIntoView({ behavior: "smooth" });
         };
+        
+        
+        this.bottom.current.scrollIntoView({ behavior: "smooth" });
     }
 
     render() {
         if (!this.props.channel) return null;
         if (!this.props.messages) return null;
+        if (!this.props) return null;
 
         const channel = this.props.channel;
         const messages = this.props.messages.map(message => {
@@ -51,7 +56,7 @@ class ChannelShow extends React.Component {
                         <div className="message-rows">
                             <div className="author">{message.author}</div>
                             <div className="message">{message.body}</div>
-                            <div ref={this.bottom}></div>
+                            {/* <div ref={this.bottom}></div> */}
                         </div>
                     </div>
                     <br/>
@@ -60,14 +65,15 @@ class ChannelShow extends React.Component {
         })
 
         return (
-            <div className="messages-bar">
-                <h1 className="channel-header"># {channel.channel_name}</h1>
-                <div className="message-list">
-                    {messages}
-                </div>
-                <MessageFormContainer channel={channel}/>
+          <div className="messages-bar">
+            <h1 className="channel-header"># {channel.channel_name}</h1>
+            <div className="message-list">
+              {messages}
+            <div ref={this.bottom}></div>
             </div>
-        )
+            <MessageFormContainer channel={channel} />
+          </div>
+        );
     }
 
 }

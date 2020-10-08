@@ -5,6 +5,7 @@ import ServerFormContainer from '../server_forms/create_server_form_container';
 import ServerJoinContainer from '../server_forms/join_server_form_container';
 import ServerShowContainer from '../servers/server_show_container'
 import { ProtectedRoute } from '../../util/route_utils';
+// import { withRouter } from "react-router-dom";
 
 class ServersIndex extends React.Component {
     constructor(props) {
@@ -44,103 +45,109 @@ class ServersIndex extends React.Component {
     render () {
         const {servers} = this.props;
         return (
-            <div className="wrapper">
-                <div className="sidebar">
-                    <ul>
-                        {/* <button className="home-button">
+          <div className="wrapper">
+            <div className="sidebar">
+              <ul>
+                {/* <button className="home-button">
                             H
                             <Link className="home" to="/">Home</Link>
                         </button> */}
-                        <Link className="home-button" to="/">
-                            H
-                            <span className="home">
-                                Home
-                            </span>
-                        </Link>
+                <Link className="home-button" to="/">
+                  H<span className="home">Home</span>
+                </Link>
 
-                        <button className="add-server" onClick={this.toggleCreateModal}>
-                            +
-                            <span className="add-server-tooltiptext">Add Server</span>
-                        </button>
-                        <button className="join-server" onClick={this.toggleJoinModal}>
-                            J
-                            <span className="join-server-tooltiptext">Join Server</span>
-                        </button>
-                        <div>
-                            <Modal
-                                id="create-modal"
-                                isOpen={this.state.showCreateModal}
-                                contentLabel="Create Server Modal"
-                                onRequestClose={this.toggleCreateModal}
-                                ariaHideApp={false}
-                                style={{
-                                    content: {
-                                        top: '50%',
-                                        left: '50%',
-                                        right: '0',
-                                        bottom: '0',
-                                        marginLeft: "-245px",
-                                        marginTop: "-175px",
-                                        overflow: "hidden",
-                                        width: '490px',
-                                        height: '350px',
-                                        background: 'rgb(255, 255, 255)'
-                                    },
-                                    overlay: {
-                                        position: 'fixed',
-                                        backgroundColor: 'rgba(0,0,0,0.7)',
-                                        zIndex: '50'
-                                    }
-                                }}
-                            >
-                                <ServerFormContainer closeModal={this.toggleCreateModal}/>
-                            </Modal>
-                        </div>
-                        <div>
-                            <Modal
-                                id="join-modal"
-                                isOpen={this.state.showJoinModal}
-                                contentLabel="Join Server Modal"
-                                onRequestClose={this.toggleJoinModal}
-                                ariaHideApp={false}
-                                style={{
-                                    content: {
-                                        top: '50%',
-                                        left: '50%',
-                                        right: '0',
-                                        bottom: '0',
-                                        marginLeft: "-245px",
-                                        marginTop: "-175px",
-                                        overflow: "hidden",
-                                        width: '490px',
-                                        height: '350px',
-                                        background: 'rgb(255, 255, 255)'
-                                    },
-                                    overlay: {
-                                        position: 'fixed',
-                                        backgroundColor: 'rgba(0,0,0,0.7)',
-                                        zIndex: '50'
-                                    }
-                                }}
-                            >
-                                <ServerJoinContainer closeModal={this.toggleJoinModal}/>
-                            </Modal>
-                        </div>
-                        {servers.map(server => (
+                <button className="add-server" onClick={this.toggleCreateModal}>
+                  +<span className="add-server-tooltiptext">Add Server</span>
+                </button>
+                <button className="join-server" onClick={this.toggleJoinModal}>
+                  J<span className="join-server-tooltiptext">Join Server</span>
+                </button>
+                <div>
+                  <Modal
+                    id="create-modal"
+                    isOpen={this.state.showCreateModal}
+                    contentLabel="Create Server Modal"
+                    onRequestClose={this.toggleCreateModal}
+                    ariaHideApp={false}
+                    style={{
+                      content: {
+                        top: "50%",
+                        left: "50%",
+                        right: "0",
+                        bottom: "0",
+                        marginLeft: "-245px",
+                        marginTop: "-175px",
+                        overflow: "hidden",
+                        width: "490px",
+                        height: "350px",
+                        background: "rgb(255, 255, 255)",
+                      },
+                      overlay: {
+                        position: "fixed",
+                        backgroundColor: "rgba(0,0,0,0.7)",
+                        zIndex: "50",
+                      },
+                    }}
+                  >
+                    <ServerFormContainer closeModal={this.toggleCreateModal} />
+                  </Modal>
+                </div>
+                <div>
+                  <Modal
+                    id="join-modal"
+                    isOpen={this.state.showJoinModal}
+                    contentLabel="Join Server Modal"
+                    onRequestClose={this.toggleJoinModal}
+                    ariaHideApp={false}
+                    style={{
+                      content: {
+                        top: "50%",
+                        left: "50%",
+                        right: "0",
+                        bottom: "0",
+                        marginLeft: "-245px",
+                        marginTop: "-175px",
+                        overflow: "hidden",
+                        width: "490px",
+                        height: "350px",
+                        background: "rgb(255, 255, 255)",
+                      },
+                      overlay: {
+                        position: "fixed",
+                        backgroundColor: "rgba(0,0,0,0.7)",
+                        zIndex: "50",
+                      },
+                    }}
+                  >
+                    <ServerJoinContainer closeModal={this.toggleJoinModal} />
+                  </Modal>
+                </div>
+                {servers.map(server => (
+                            <li className="tooltip" key={server.id}>
+                                <button className="server-link" onClick={() => this.props.history.push(`/servers/${server.id}`)}>{server.server_name.slice(0, 2)}</button>
+                                <span className="tooltiptext">
+                                    {server.server_name}
+                                </span>
+                            </li>
+                        ))}
+                {/* {servers.map(server => (
                             <li className="tooltip" key={server.id}>
                                 <Link className="server-link" to={`/servers/${server.id}`}>{server.server_name.slice(0, 2)}</Link>
                                 <span className="tooltiptext">
                                     {server.server_name}
                                 </span>
                             </li>
-                        ))}
-                    </ul>
-                </div>
-                <div>
-                    <ProtectedRoute path="/servers/:serverId" component={ServerShowContainer}/>
-                </div>
+                        ))} */}
+              </ul>
             </div>
-        )
+            <div>
+              <ProtectedRoute
+                path="/servers/:serverId"
+                component={ServerShowContainer}
+              />
+            </div>
+          </div>
+        );
     }
 }
 
