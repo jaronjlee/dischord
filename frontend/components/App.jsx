@@ -14,14 +14,16 @@ import {AuthRoute} from '../util/route_utils'
 import {ProtectedRoute} from '../util/route_utils'
 
 const App = () => (
-    <div>
-        {/* <Switch> */}
-            <Route exact path="/" component={HomeContainer}/>
-            <AuthRoute exact path="/login" component={LoginFormContainer}/>
-            <AuthRoute exact path="/signup" component={SignupFormContainer}/>
-            <ProtectedRoute path="/servers" component={ServersIndexContainer}/>
-        {/* </Switch> */}
-    </div>
+  <div>
+    {/* <Switch> */}
+    <Route exact path="/" component={HomeContainer} />
+    <AuthRoute exact path="/login" component={LoginFormContainer} />
+    <AuthRoute exact path="/signup" component={SignupFormContainer} />
+    <ProtectedRoute path="/servers" component={ServersIndexContainer} />
+    {/* <ProtectedRoute path="/servers/:serverId" component={ServerShowContainer} /> */}
+    {/* <ProtectedRoute path="/servers/:serverId/:channelId" component={ChannelShowContainer}/> */}
+    {/* </Switch> */}
+  </div>
 );
 
 export default App;

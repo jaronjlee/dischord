@@ -186,6 +186,10 @@
   box-shadow: none;
 }
 
+.home-button:hover {
+    background-color: #40444B;
+}
+
 
 
 .member-header {
@@ -218,4 +222,26 @@
     padding: 5px;
     margin: 10px;
     border-radius: 5px;
+}
+
+.logout-button {
+    background-color: #40444B;
+    color: white;
+    // padding: 10px;
+    // margin: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    border-radius: 3px;
+    border-style: solid;
+    border-color: transparent;
+    cursor: pointer;
+}
+
+.logout-button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.logout-button:hover {
+    background-color: #7289DA;
 }

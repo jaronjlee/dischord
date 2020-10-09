@@ -89,7 +89,8 @@ class ServerShow extends React.Component {
                 <ul className="channels">
                     {channels.map((channel) => (
                         <li key={channel.id}>
-                            <Link className="channel-link" to={`/servers/${server.id}/${channel.id}`}>{channel.channel_name}</Link>
+                            <button className="channel-link" onClick={() => this.props.history.push(`/servers/${server.id}/${channel.id}`)}>#{channel.channel_name}</button>
+                            {/* <Link className="channel-link" to={`/servers/${server.id}/${channel.id}`}>{channel.channel_name}</Link> */}
                         </li>
                     ))}
                 </ul>

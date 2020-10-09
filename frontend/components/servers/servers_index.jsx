@@ -48,10 +48,10 @@ class ServersIndex extends React.Component {
           <div className="wrapper">
             <div className="sidebar">
               <ul>
-                {/* <button className="home-button">
-                            H
-                            <Link className="home" to="/">Home</Link>
-                        </button> */}
+                <button className="logout-button" onClick={this.props.logout}>
+                  Logout
+                </button>
+
                 <Link className="home-button" to="/">
                   H<span className="home">Home</span>
                 </Link>
@@ -122,14 +122,19 @@ class ServersIndex extends React.Component {
                     <ServerJoinContainer closeModal={this.toggleJoinModal} />
                   </Modal>
                 </div>
-                {servers.map(server => (
-                            <li className="tooltip" key={server.id}>
-                                <button className="server-link" onClick={() => this.props.history.push(`/servers/${server.id}`)}>{server.server_name.slice(0, 2)}</button>
-                                <span className="tooltiptext">
-                                    {server.server_name}
-                                </span>
-                            </li>
-                        ))}
+                {servers.map((server) => (
+                  <li className="tooltip" key={server.id}>
+                    <button
+                      className="server-link"
+                      onClick={() =>
+                        this.props.history.push(`/servers/${server.id}`)
+                      }
+                    >
+                      {server.server_name.slice(0, 2)}
+                    </button>
+                    <span className="tooltiptext">{server.server_name}</span>
+                  </li>
+                ))}
                 {/* {servers.map(server => (
                             <li className="tooltip" key={server.id}>
                                 <Link className="server-link" to={`/servers/${server.id}`}>{server.server_name.slice(0, 2)}</Link>

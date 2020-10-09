@@ -21,9 +21,9 @@ export const receiveErrors = (errors) => ({
     errors
 });
 
-// export const clearErrors = () => ({
-//     type: CLEAR_SESSION_ERRORS,
-// });
+export const clearErrors = () => ({
+    type: CLEAR_SESSION_ERRORS,
+});
 
 
 //THUNK ACTION CREATORS

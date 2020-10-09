@@ -13,6 +13,10 @@ class SessionForm extends React.Component {
         this.handleDemo = this.handleDemo.bind(this);
     }
 
+    componentDidMount() {
+    this.props.clearErrors();
+    }
+
     update(field) {
         return e => this.setState({
             [field]: e.currentTarget.value
@@ -21,19 +25,18 @@ class SessionForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
+
         const user = Object.assign({}, this.state);
         this.props.processForm(user);
     }
 
     renderErrors() {
         return (
-            <ul>
-                {this.props.errors.map((error, i) => (
-                    <li key={`error-${i}`}>
-                        {error}
-                    </li>
-                ))}
-            </ul>
+          <ul>
+            {this.props.errors.map((error, i) => (
+              <li key={`error-${i}`}>{error}</li>
+            ))}
+          </ul>
         );
     }
 
@@ -57,7 +60,7 @@ class SessionForm extends React.Component {
 
     loginMessage() {
         return (
-            <Link to="/login">Already have an account?</Link>
+            <Link className="session-link" to="/login">Already have an account?</Link>
         )
     }
 
@@ -65,7 +68,7 @@ class SessionForm extends React.Component {
         return (
             <div>
                 <>Need an account? </>
-                <Link to="/signup">Register</Link>
+                <Link className="session-link" to="/signup">Register</Link>
             </div>
         )
     }
@@ -82,51 +85,63 @@ class SessionForm extends React.Component {
     render() {
         const {formType} = this.props
         return (
-            <div className="whole-page">
-                <header>
-                    <h1 className="dischord">Dischord</h1>
-                </header>
-                <br/>
-                <form className="session-form-box" onSubmit={this.handleSubmit}>
-                        <h2 className="session-header" > {formType == "login" ? this.loginHeader():this.signUpHeader()} </h2>
-                        <br/>
-                        <label className="login-label">USERNAME
-                            <br/>
-                            <input 
-                                className="input-box"
-                                type="text"
-                                value={this.state.username}
-                                onChange={this.update('username')}
-                            />
-                        </label>
-                        <br/>
-                        <label className="login-label">PASSWORD
-                            <br/>
-                            <input 
-                                className="input-box"
-                                type="password"
-                                value={this.state.password}
-                                onChange={this.update('password')}
-                            />
-                        </label>
-                        <br/>
-                        <button className="button" type="submit">Continue</button>
-                        {formType == "login" ?
-                            <button
-                                className="button"
-                                onClick={this.handleDemo}
-                                >Demo
-                                </button> : null}
-                        <br/>
-                        <div className="session-message">
-                            {formType == "login" ? this.signUpMessage():this.loginMessage()}
-                        </div>
-                        <br/>
-                        
-                        <br/>
-                        {this.renderErrors()}
-                </form>
-            </div>
+          <div className="whole-page">
+            <header>
+              <h1 className="dischord">Dischord</h1>
+            </header>
+            <br />
+            <form className="session-form-box" onSubmit={this.handleSubmit}>
+              <h2 className="session-header">
+                {" "}
+                {formType == "login"
+                  ? this.loginHeader()
+                  : this.signUpHeader()}{" "}
+              </h2>
+              <br />
+              <label className="login-label">
+                USERNAME
+                <br />
+                <input
+                  className="input-box"
+                  type="text"
+                  value={this.state.username}
+                  onChange={this.update("username")}
+                />
+              </label>
+              <br />
+              <label className="login-label">
+                PASSWORD
+                <br />
+                <input
+                  className="input-box"
+                  type="password"
+                  value={this.state.password}
+                  onChange={this.update("password")}
+                />
+              </label>
+              <br />
+              <button className="button" type="submit">
+                Continue
+              </button>
+              {formType == "login" ? (
+                <button className="button" onClick={this.handleDemo}>
+                  Demo
+                </button>
+              ) : null}
+              <br />
+              <div>
+                {formType == "login"
+                  ? this.signUpMessage()
+                  : this.loginMessage()}
+              </div>
+              <br />
+
+              <br />
+              <div id="session-errors">
+                  {this.renderErrors()}
+              </div>
+            </form>
+          </div>
         );
     }
 }

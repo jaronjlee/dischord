@@ -12,7 +12,7 @@
 class Message < ApplicationRecord
 
     validates :body, :author_id, :channel_id, presence: true
-    validates :body, length: {maximum: 100}
+    validates :body, length: {maximum: 140}
     
     belongs_to :author,
         foreign_key: :author_id,
