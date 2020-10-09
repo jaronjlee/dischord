@@ -62,6 +62,16 @@ class ServersIndex extends React.Component {
                   H<span className="home">Home</span>
                 </Link>
 
+                {/* <div>
+                  <img
+                    src="white_logo.png" 
+                    alt="alt text" 
+                    className="home-button"
+                    onClick={() => this.props.history.push(`/`)}
+                  />
+                  <span className="home">Home</span>
+                </div> */}
+
                 <button className="add-server" onClick={this.toggleCreateModal}>
                   +<span className="add-server-tooltiptext">Add Server</span>
                 </button>

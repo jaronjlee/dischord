@@ -19,6 +19,8 @@ time, mark, audio, video {
     font-style: inherit;
     font-family: 'Source Sans Pro', sans-serif;
     vertical-align: baseline;
+    user-select: none;
+    
 }
 
 /* HTML5 display-role reset for older browsers */
