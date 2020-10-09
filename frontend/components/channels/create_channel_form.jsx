@@ -17,9 +17,9 @@ class CreateChannelForm extends React.Component {
         });
     }
 
-    async handleSubmit(e) {
+    handleSubmit(e) {
         e.preventDefault();
-        const serverId = await this.props.server.id
+        const serverId = this.props.server.id
         const channel = Object.assign({}, this.state);
         this.props.createChannel(serverId, channel)
             .then(() => (this.props.closeModal()))

@@ -22,6 +22,7 @@ class ServerShow extends React.Component {
 
     componentDidUpdate(newProps) {
         if (this.props.match.params.serverId !== newProps.match.params.serverId) {
+            window.location.reload(false);
             this.props.requestServer();
             this.props.requestChannels();
         }

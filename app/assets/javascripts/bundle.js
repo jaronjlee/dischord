@@ -706,10 +706,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -764,44 +760,20 @@ var CreateChannelForm = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "handleSubmit",
-    value: function () {
-      var _handleSubmit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
-        var _this3 = this;
+    value: function handleSubmit(e) {
+      var _this3 = this;
 
-        var serverId, channel;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                e.preventDefault();
-                _context.next = 3;
-                return this.props.server.id;
-
-              case 3:
-                serverId = _context.sent;
-                channel = Object.assign({}, this.state);
-                this.props.createChannel(serverId, channel).then(function () {
-                  return _this3.props.closeModal();
-                });
-                this.setState({
-                  channel_name: '',
-                  server_id: ''
-                });
-
-              case 7:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function handleSubmit(_x) {
-        return _handleSubmit.apply(this, arguments);
-      }
-
-      return handleSubmit;
-    }()
+      e.preventDefault();
+      var serverId = this.props.server.id;
+      var channel = Object.assign({}, this.state);
+      this.props.createChannel(serverId, channel).then(function () {
+        return _this3.props.closeModal();
+      });
+      this.setState({
+        channel_name: '',
+        server_id: ''
+      });
+    }
   }, {
     key: "render",
     value: function render() {
@@ -1462,6 +1434,7 @@ var ServerShow = /*#__PURE__*/function (_React$Component) {
     key: "componentDidUpdate",
     value: function componentDidUpdate(newProps) {
       if (this.props.match.params.serverId !== newProps.match.params.serverId) {
+        window.location.reload(false);
         this.props.requestServer();
         this.props.requestChannels();
       }
@@ -1673,7 +1646,8 @@ var ServersIndex = /*#__PURE__*/function (_React$Component) {
       showJoinModal: false
     };
     _this.toggleCreateModal = _this.toggleCreateModal.bind(_assertThisInitialized(_this));
-    _this.toggleJoinModal = _this.toggleJoinModal.bind(_assertThisInitialized(_this));
+    _this.toggleJoinModal = _this.toggleJoinModal.bind(_assertThisInitialized(_this)); // this.switchServer = this.switchServer.bind(this);
+
     return _this;
   }
 
@@ -1702,7 +1676,11 @@ var ServersIndex = /*#__PURE__*/function (_React$Component) {
       this.setState({
         showJoinModal: !this.state.showJoinModal
       });
-    }
+    } // switchServer(serverId) {
+    //   this.props.history.push(`/servers/${serverId}`)
+    //   // window.location.reload(false)
+    // }
+
   }, {
     key: "render",
     value: function render() {
@@ -1790,7 +1768,8 @@ var ServersIndex = /*#__PURE__*/function (_React$Component) {
           className: "tooltip",
           key: server.id
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          className: "server-link",
+          className: "server-link" // onClick={this.switchServer(server.id)}
+          ,
           onClick: function onClick() {
             return _this2.props.history.push("/servers/".concat(server.id));
           }

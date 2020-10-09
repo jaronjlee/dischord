@@ -17,6 +17,7 @@ class ServersIndex extends React.Component {
 
         this.toggleCreateModal = this.toggleCreateModal.bind(this);
         this.toggleJoinModal = this.toggleJoinModal.bind(this);
+        // this.switchServer = this.switchServer.bind(this);
     }
 
     componentDidMount () {
@@ -41,6 +42,11 @@ class ServersIndex extends React.Component {
             showJoinModal: !this.state.showJoinModal
         })
     }
+
+    // switchServer(serverId) {
+    //   this.props.history.push(`/servers/${serverId}`)
+    //   // window.location.reload(false)
+    // }
 
     render () {
         const {servers} = this.props;
@@ -126,9 +132,8 @@ class ServersIndex extends React.Component {
                   <li className="tooltip" key={server.id}>
                     <button
                       className="server-link"
-                      onClick={() =>
-                        this.props.history.push(`/servers/${server.id}`)
-                      }
+                      // onClick={this.switchServer(server.id)}
+                      onClick={() => this.props.history.push(`/servers/${server.id}`)}
                     >
                       {server.server_name.slice(0, 2)}
                     </button>
