@@ -12,6 +12,7 @@
     width: 100%;
     height: 100vh;
     background-color: #36393F;
+    overflow: hidden;
 }
 
 
@@ -23,7 +24,7 @@
     padding: 20px 0;
     background-color: #202225;
     color: white;
-    // overflow-y: scroll;
+    // overflow-y: none;
 }
 
 .wrapper .channel-bar {

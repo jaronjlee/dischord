@@ -18,11 +18,12 @@ class ServerShow extends React.Component {
     componentDidMount() {
         this.props.requestServer();
         this.props.requestChannels()
+        this.setState({currentChannel: this.props.currentChannel})
     }
 
     componentDidUpdate(newProps) {
         if (this.props.match.params.serverId !== newProps.match.params.serverId) {
-            window.location.reload(false);
+            // window.location.reload(false);
             this.props.requestServer();
             this.props.requestChannels();
         }
@@ -46,15 +47,23 @@ class ServerShow extends React.Component {
     render () {
         if (!this.props.server) return null;
         const server = this.props.server;
-        const channels = this.props.channels
+        const channels = this.props.channels;
+        const currentUser = this.props.currentUser.username
+        const id = this.props.currentUser.id;
 
         return (
             <div className="channel-bar">
                 <h1 className="server-header">{server.server_name}</h1>
                 <br/>
                 <div className="create-channel" onClick={this.toggleCreateModal}>Add Channel</div>
-                <div className="display-code-button"onClick={this.displayCode}>Display invite code</div>
-                <div id="server-code">{server.invite_code}</div>
+                {/* <div className="display-code-button"onClick={this.displayCode}>Display invite code</div>
+                <div id="server-code">{server.invite_code}</div> */}
+                <div
+                    onClick={() => {navigator.clipboard.writeText(server.invite_code);}}
+                    className="invite-code"
+                    >
+                    ✉ Copy Invite Code
+                </div>
                 <div>
                     <Modal
                         id="create-modal"
@@ -98,6 +107,22 @@ class ServerShow extends React.Component {
                 <div>
                     <ProtectedRoute path="/servers/:serverId/:channelId" component={ChannelShowContainer} />
                 </div>
+                <footer className="user-toolbar">
+                    <img src="discord-logo-online.jpg" alt="" />
+                    <span>
+                        <span>{currentUser}</span>
+                        <br />#{id}
+                    </span>
+                    <div className="user-toolbar-buttons">
+                        <div
+                        className="logout-button-container"
+                        onClick={this.props.logout}
+                        >
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span className="toolbar-text">Logout</span>
+                        </div>
+                    </div>
+                </footer>
                 <div className="members-bar">
                     <h1 className="member-header">Members</h1>
                     <ul className="members-list">

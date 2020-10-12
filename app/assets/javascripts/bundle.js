@@ -90,7 +90,7 @@
 /*!*********************************************!*\
   !*** ./frontend/actions/channel_actions.js ***!
   \*********************************************/
-/*! exports provided: RECEIVE_CHANNELS, RECEIVE_CHANNEL, REMOVE_CHANNEL, RECEIVE_CHANNEL_ERRORS, receiveChannels, receiveChannel, removeChannel, receiveErrors, requestChannels, requestChannel, createChannel, updateChannel, deleteChannel */
+/*! exports provided: RECEIVE_CHANNELS, RECEIVE_CHANNEL, REMOVE_CHANNEL, RECEIVE_CHANNEL_ERRORS, receiveChannels, receiveChannel, removeChannel, receiveErrors, requestChannels, requestChannel, createGeneralChannel, createChannel, updateChannel, deleteChannel */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -105,6 +105,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveErrors", function() { return receiveErrors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestChannels", function() { return requestChannels; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestChannel", function() { return requestChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createGeneralChannel", function() { return createGeneralChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createChannel", function() { return createChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateChannel", function() { return updateChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteChannel", function() { return deleteChannel; });
@@ -158,6 +159,18 @@ var requestChannel = function requestChannel(serverId, channelId) {
     });
   };
 };
+var createGeneralChannel = function createGeneralChannel(serverId, channel) {
+  return function (dispatch) {
+    return _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__["createChannel"](serverId, channel);
+  };
+}; // export const createGeneralChannel = (serverId, channel) => dispatch => (
+//     APIUtil.createGeneralChannel(serverId, channel).then(channel => (
+//         dispatch(receiveChannel(channel))
+//     ), err => (
+//         dispatch(receiveErrors(err.responseJSON))
+//     ))
+// );
+
 var createChannel = function createChannel(serverId, channel) {
   return function (dispatch) {
     return _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__["createChannel"](serverId, channel).then(function (channel) {
@@ -493,7 +506,7 @@ var App = function App() {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     exact: true,
     path: "/",
-    component: _splash_splash_container__WEBPACK_IMPORTED_MODULE_5__["default"]
+    component: _session_form_signup_form_container__WEBPACK_IMPORTED_MODULE_4__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_8__["AuthRoute"], {
     exact: true,
     path: "/login",
@@ -601,9 +614,12 @@ var ChannelShow = /*#__PURE__*/function (_React$Component) {
       }
 
       ;
-      this.bottom.current.scrollIntoView({
-        behavior: "smooth"
-      });
+
+      if (this.bottom.current) {
+        this.bottom.current.scrollIntoView({
+          behavior: "smooth"
+        });
+      }
     }
   }, {
     key: "render",
@@ -635,7 +651,16 @@ var ChannelShow = /*#__PURE__*/function (_React$Component) {
         className: "channel-header"
       }, "# ", channel.channel_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-list"
-      }, messages, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-list-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: "channel-header.jpg",
+        alt: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "channel-welcome"
+      }, "Welcome to #", channel.channel_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "channel-start"
+      }, "This is the start of the #", channel.channel_name, " channel")), messages, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         ref: this.bottom
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_message_form_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
         channel: channel
@@ -1045,7 +1070,12 @@ var Root = function Root(_ref) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -1068,6 +1098,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -1106,18 +1137,64 @@ var CreateServerForm = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "handleSubmit",
-    value: function handleSubmit(e) {
-      var _this3 = this;
+    value: function () {
+      var _handleSubmit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
+        var server, savedServer, channel, savedChannel;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return e.preventDefault();
 
-      e.preventDefault();
-      var server = Object.assign({}, this.state);
-      this.props.processForm(server).then(function () {
-        return _this3.props.closeModal();
-      });
-      this.setState({
-        server_name: ""
-      });
-    }
+              case 2:
+                _context.next = 4;
+                return Object.assign({}, this.state);
+
+              case 4:
+                server = _context.sent;
+                _context.next = 7;
+                return this.props.createServer(server);
+
+              case 7:
+                savedServer = _context.sent;
+                _context.next = 10;
+                return console.log(savedServer.server.id);
+
+              case 10:
+                _context.next = 12;
+                return {
+                  channel_name: "general"
+                };
+
+              case 12:
+                channel = _context.sent;
+                _context.next = 15;
+                return this.props.createGeneralChannel(savedServer.server.id, channel);
+
+              case 15:
+                savedChannel = _context.sent;
+                _context.next = 18;
+                return console.log(savedChannel.channel);
+
+              case 18:
+                _context.next = 20;
+                return this.props.closeModal();
+
+              case 20:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function handleSubmit(_x) {
+        return _handleSubmit.apply(this, arguments);
+      }
+
+      return handleSubmit;
+    }()
   }, {
     key: "renderErrors",
     value: function renderErrors() {
@@ -1154,7 +1231,7 @@ var CreateServerForm = /*#__PURE__*/function (_React$Component) {
   return CreateServerForm;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (CreateServerForm); // export default withRouter(ServerForm);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(CreateServerForm)); // export default withRouter(ServerForm);
 
 /***/ }),
 
@@ -1169,7 +1246,9 @@ var CreateServerForm = /*#__PURE__*/function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
-/* harmony import */ var _create_server_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./create_server_form */ "./frontend/components/server_forms/create_server_form.jsx");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.js");
+/* harmony import */ var _create_server_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./create_server_form */ "./frontend/components/server_forms/create_server_form.jsx");
+
 
 
 
@@ -1189,16 +1268,19 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    processForm: function processForm(server) {
+    createServer: function createServer(server) {
       return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_1__["createServer"])(server));
     },
     clearErrors: function clearErrors(errors) {
       return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_1__["clearErrors"])(errors));
+    },
+    createGeneralChannel: function createGeneralChannel(serverId, channel) {
+      return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["createGeneralChannel"])(serverId, channel));
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_create_server_form__WEBPACK_IMPORTED_MODULE_2__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_create_server_form__WEBPACK_IMPORTED_MODULE_3__["default"]));
 
 /***/ }),
 
@@ -1360,6 +1442,133 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
+/***/ "./frontend/components/servers/server_index_item.jsx":
+/*!***********************************************************!*\
+  !*** ./frontend/components/servers/server_index_item.jsx ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var ServerIndexItem = /*#__PURE__*/function (_React$Component) {
+  _inherits(ServerIndexItem, _React$Component);
+
+  var _super = _createSuper(ServerIndexItem);
+
+  function ServerIndexItem(props) {
+    var _this;
+
+    _classCallCheck(this, ServerIndexItem);
+
+    _this = _super.call(this, props);
+    _this.state = {};
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(ServerIndexItem, [{
+    key: "handleClick",
+    value: function handleClick() {
+      var _this2 = this;
+
+      this.props.requestServer(this.props.server.id).then(function () {
+        _this2.props.requestChannels(_this2.props.server.id).then(function () {
+          var channelId = Object.keys(_this2.props.channels)[0];
+
+          _this2.props.history.push("/servers/".concat(_this2.props.server.id, "/").concat(channelId));
+        });
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "tooltip"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "server-link",
+        onClick: this.handleClick // onClick={() => this.props.history.push(`/servers/${server.id}`)}
+
+      }, this.props.server.server_name.charAt(0)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "tooltiptext"
+      }, this.props.server.server_name));
+    }
+  }]);
+
+  return ServerIndexItem;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(ServerIndexItem));
+
+/***/ }),
+
+/***/ "./frontend/components/servers/server_index_item_container.jsx":
+/*!*********************************************************************!*\
+  !*** ./frontend/components/servers/server_index_item_container.jsx ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _server_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./server_index_item */ "./frontend/components/servers/server_index_item.jsx");
+/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.js");
+
+
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    channels: state.entities.channels
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    requestServer: function requestServer(serverId) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["requestServer"])(serverId));
+    },
+    requestChannels: function requestChannels(serverId) {
+      return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__["requestChannels"])(serverId));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_server_index_item__WEBPACK_IMPORTED_MODULE_1__["default"]));
+
+/***/ }),
+
 /***/ "./frontend/components/servers/server_show.jsx":
 /*!*****************************************************!*\
   !*** ./frontend/components/servers/server_show.jsx ***!
@@ -1429,12 +1638,15 @@ var ServerShow = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       this.props.requestServer();
       this.props.requestChannels();
+      this.setState({
+        currentChannel: this.props.currentChannel
+      });
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(newProps) {
       if (this.props.match.params.serverId !== newProps.match.params.serverId) {
-        window.location.reload(false);
+        // window.location.reload(false);
         this.props.requestServer();
         this.props.requestChannels();
       }
@@ -1465,6 +1677,8 @@ var ServerShow = /*#__PURE__*/function (_React$Component) {
       if (!this.props.server) return null;
       var server = this.props.server;
       var channels = this.props.channels;
+      var currentUser = this.props.currentUser.username;
+      var id = this.props.currentUser.id;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-bar"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
@@ -1473,11 +1687,11 @@ var ServerShow = /*#__PURE__*/function (_React$Component) {
         className: "create-channel",
         onClick: this.toggleCreateModal
       }, "Add Channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "display-code-button",
-        onClick: this.displayCode
-      }, "Display invite code"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "server-code"
-      }, server.invite_code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_1___default.a, {
+        onClick: function onClick() {
+          navigator.clipboard.writeText(server.invite_code);
+        },
+        className: "invite-code"
+      }, "\u2709 Copy Invite Code"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_1___default.a, {
         id: "create-modal",
         isOpen: this.state.showCreateModal,
         contentLabel: "Create Channel Modal",
@@ -1521,7 +1735,21 @@ var ServerShow = /*#__PURE__*/function (_React$Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_2__["ProtectedRoute"], {
         path: "/servers/:serverId/:channelId",
         component: _channels_channel_show_container__WEBPACK_IMPORTED_MODULE_4__["default"]
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", {
+        className: "user-toolbar"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: "discord-logo-online.jpg",
+        alt: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, currentUser), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "#", id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-toolbar-buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "logout-button-container",
+        onClick: this.props.logout
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        "class": "fas fa-sign-out-alt"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "toolbar-text"
+      }, "Logout")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "members-bar"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "member-header"
@@ -1555,6 +1783,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.js");
 /* harmony import */ var _server_show__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./server_show */ "./frontend/components/servers/server_show.jsx");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
+
 
 
 
@@ -1563,7 +1793,9 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     server: state.entities.servers[ownProps.match.params.serverId],
-    channels: Object.values(state.entities.channels)
+    channels: Object.values(state.entities.channels),
+    currentChannel: ownProps.match.params.channelId,
+    currentUser: state.entities.users[state.session.id]
   };
 };
 
@@ -1574,6 +1806,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
     },
     requestChannels: function requestChannels() {
       return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["requestChannels"])(ownProps.match.params.serverId));
+    },
+    logout: function logout() {
+      return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_4__["logout"])());
     }
   };
 };
@@ -1600,6 +1835,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _server_forms_join_server_form_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../server_forms/join_server_form_container */ "./frontend/components/server_forms/join_server_form_container.jsx");
 /* harmony import */ var _servers_server_show_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../servers/server_show_container */ "./frontend/components/servers/server_show_container.jsx");
 /* harmony import */ var _util_route_utils__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../util/route_utils */ "./frontend/util/route_utils.jsx");
+/* harmony import */ var _server_index_item_container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./server_index_item_container */ "./frontend/components/servers/server_index_item_container.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1621,6 +1857,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -1676,25 +1913,30 @@ var ServersIndex = /*#__PURE__*/function (_React$Component) {
       this.setState({
         showJoinModal: !this.state.showJoinModal
       });
-    } // switchServer(serverId) {
-    //   this.props.history.push(`/servers/${serverId}`)
-    //   // window.location.reload(false)
-    // }
-
+    }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      // const {servers} = this.props;
+      var _this$props = this.props,
+          servers = _this$props.servers,
+          channels = _this$props.channels;
+      var serversList = null;
 
-      var servers = this.props.servers;
+      if (servers.length !== 0) {
+        serversList = servers.map(function (server) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_index_item_container__WEBPACK_IMPORTED_MODULE_7__["default"], {
+            server: server,
+            key: server.id
+          });
+        });
+      }
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "wrapper"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "logout-button",
-        onClick: this.props.logout
-      }, "Logout"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "home-button",
         to: "/"
       }, "H", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -1709,7 +1951,7 @@ var ServersIndex = /*#__PURE__*/function (_React$Component) {
         onClick: this.toggleJoinModal
       }, "J", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "join-server-tooltiptext"
-      }, "Join Server")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      }, "Join Server")), serversList, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_modal__WEBPACK_IMPORTED_MODULE_2___default.a, {
         id: "create-modal",
         isOpen: this.state.showCreateModal,
         contentLabel: "Create Server Modal",
@@ -1763,20 +2005,7 @@ var ServersIndex = /*#__PURE__*/function (_React$Component) {
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_forms_join_server_form_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
         closeModal: this.toggleJoinModal
-      }))), servers.map(function (server) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: "tooltip",
-          key: server.id
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          className: "server-link" // onClick={this.switchServer(server.id)}
-          ,
-          onClick: function onClick() {
-            return _this2.props.history.push("/servers/".concat(server.id));
-          }
-        }, server.server_name.slice(0, 2)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-          className: "tooltiptext"
-        }, server.server_name));
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__["ProtectedRoute"], {
+      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_6__["ProtectedRoute"], {
         path: "/servers/:serverId",
         component: _servers_server_show_container__WEBPACK_IMPORTED_MODULE_5__["default"]
       })));
@@ -1974,23 +2203,31 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "signUpHeader",
     value: function signUpHeader() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Create an account"));
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "login-message"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Create an account"));
     }
   }, {
     key: "loginMessage",
     value: function loginMessage() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "need-account"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "session-link",
         to: "/login"
-      }, "Already have an account?");
+      }, "Already have an account?"));
     }
   }, {
     key: "signUpMessage",
     value: function signUpMessage() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, "Need an account? "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "need-account"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "login-label"
+      }, "Need an account?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "session-link",
         to: "/signup"
-      }, "Register"));
+      }, "  Register"));
     }
   }, {
     key: "handleDemo",
@@ -2006,39 +2243,122 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var formType = this.props.formType;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "whole-page"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "dischord"
-      }, "Dischord")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        className: "session-form-box",
-        onSubmit: this.handleSubmit
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
-        className: "session-header"
-      }, " ", formType == "login" ? this.loginHeader() : this.signUpHeader(), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        className: "login-label"
-      }, "USERNAME", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        className: "input-box",
-        type: "text",
-        value: this.state.username,
-        onChange: this.update("username")
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        className: "login-label"
-      }, "PASSWORD", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        className: "input-box",
-        type: "password",
-        value: this.state.password,
-        onChange: this.update("password")
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "button",
-        type: "submit"
-      }, "Continue"), formType == "login" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "button",
-        onClick: this.handleDemo
-      }, "Demo") : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, formType == "login" ? this.signUpMessage() : this.loginMessage()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "session-errors"
-      }, this.renderErrors())));
-    }
+      return (
+        /*#__PURE__*/
+        // <div className="login-form-container">
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "whole-page"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: "/white_logo.png",
+          className: "login-logo",
+          alt: ""
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "dischord"
+        }, "DISCHORD")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+          className: "session-form-box",
+          onSubmit: this.handleSubmit
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+          className: "session-header"
+        }, " ", formType == "login" ? this.loginHeader() : this.signUpHeader(), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          className: "login-label"
+        }, "USERNAME", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          className: "input-box",
+          type: "text",
+          value: this.state.username,
+          onChange: this.update("username")
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          className: "login-label"
+        }, "PASSWORD", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          className: "input-box",
+          type: "password",
+          value: this.state.password,
+          onChange: this.update("password")
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "button",
+          type: "submit"
+        }, "Continue"), formType == "login" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "button",
+          onClick: this.handleDemo
+        }, "Demo") : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, formType == "login" ? this.signUpMessage() : this.loginMessage()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          id: "session-errors"
+        }, this.renderErrors())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          "class": "personal-div"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+          href: "https://www.linkedin.com/in/jaronjlee/"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: "./linkedin.png"
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+          href: "https://github.com/jaronjlee/discord_clone"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: "./personalsite.png"
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+          href: "https://github.com/jaronjlee/discord_clone"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: "./github.svg"
+        })))))
+      );
+    } // render() {
+    //     const {formType} = this.props
+    //     return (
+    //       <div className="whole-page">
+    //         <header>
+    //           <h1 className="dischord">Dischord</h1>
+    //         </header>
+    //         <br />
+    //         <form className="session-form-box" onSubmit={this.handleSubmit}>
+    //           <h2 className="session-header">
+    //             {" "}
+    //             {formType == "login"
+    //               ? this.loginHeader()
+    //               : this.signUpHeader()}{" "}
+    //           </h2>
+    //           <br />
+    //           <label className="login-label">
+    //             USERNAME
+    //             <br />
+    //             <input
+    //               className="input-box"
+    //               type="text"
+    //               value={this.state.username}
+    //               onChange={this.update("username")}
+    //             />
+    //           </label>
+    //           <br />
+    //           <label className="login-label">
+    //             PASSWORD
+    //             <br />
+    //             <input
+    //               className="input-box"
+    //               type="password"
+    //               value={this.state.password}
+    //               onChange={this.update("password")}
+    //             />
+    //           </label>
+    //           <br />
+    //           <button className="button" type="submit">
+    //             Continue
+    //           </button>
+    //           {formType == "login" ? (
+    //             <button className="button" onClick={this.handleDemo}>
+    //               Demo
+    //             </button>
+    //           ) : null}
+    //           <br />
+    //           <div>
+    //             {formType == "login"
+    //               ? this.signUpMessage()
+    //               : this.loginMessage()}
+    //           </div>
+    //           <br />
+    //           <br />
+    //           <div id="session-errors">
+    //               {this.renderErrors()}
+    //           </div>
+    //         </form>
+    //       </div>
+    //     );
+    // }
+
   }]);
 
   return SessionForm;

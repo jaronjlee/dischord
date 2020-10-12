@@ -5,6 +5,7 @@ import ServerFormContainer from '../server_forms/create_server_form_container';
 import ServerJoinContainer from '../server_forms/join_server_form_container';
 import ServerShowContainer from '../servers/server_show_container'
 import { ProtectedRoute } from '../../util/route_utils';
+import ServerIndexItemContainer from "./server_index_item_container";
 // import { withRouter } from "react-router-dom";
 
 class ServersIndex extends React.Component {
@@ -43,20 +44,26 @@ class ServersIndex extends React.Component {
         })
     }
 
-    // switchServer(serverId) {
-    //   this.props.history.push(`/servers/${serverId}`)
-    //   // window.location.reload(false)
-    // }
 
     render () {
-        const {servers} = this.props;
+      // const {servers} = this.props;
+      const { servers, channels } = this.props
+      let serversList = null;
+      if (servers.length !== 0) {
+        serversList = servers.map(server => {
+            return (
+              <ServerIndexItemContainer server={server} key={server.id}></ServerIndexItemContainer>
+            )
+        })
+      }
+
         return (
           <div className="wrapper">
             <div className="sidebar">
               <ul>
-                <button className="logout-button" onClick={this.props.logout}>
+                {/* <button className="logout-button" onClick={this.props.logout}>
                   Logout
-                </button>
+                </button> */}
 
                 <Link className="home-button" to="/">
                   H<span className="home">Home</span>
@@ -78,6 +85,7 @@ class ServersIndex extends React.Component {
                 <button className="join-server" onClick={this.toggleJoinModal}>
                   J<span className="join-server-tooltiptext">Join Server</span>
                 </button>
+                {serversList}
                 <div>
                   <Modal
                     id="create-modal"
@@ -138,7 +146,7 @@ class ServersIndex extends React.Component {
                     <ServerJoinContainer closeModal={this.toggleJoinModal} />
                   </Modal>
                 </div>
-                {servers.map((server) => (
+                {/* {servers.map((server) => (
                   <li className="tooltip" key={server.id}>
                     <button
                       className="server-link"
@@ -149,15 +157,7 @@ class ServersIndex extends React.Component {
                     </button>
                     <span className="tooltiptext">{server.server_name}</span>
                   </li>
-                ))}
-                {/* {servers.map(server => (
-                            <li className="tooltip" key={server.id}>
-                                <Link className="server-link" to={`/servers/${server.id}`}>{server.server_name.slice(0, 2)}</Link>
-                                <span className="tooltiptext">
-                                    {server.server_name}
-                                </span>
-                            </li>
-                        ))} */}
+                ))} */}
               </ul>
             </div>
             <div>
