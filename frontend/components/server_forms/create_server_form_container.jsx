@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { createServer, clearErrors } from "../../actions/server_actions";
+import {createGeneralChannel} from "../../actions/channel_actions";
 import CreateServerForm from './create_server_form';
 
 const mapStateToProps = (state) => {
@@ -17,8 +18,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      processForm: (server) => dispatch(createServer(server)),
+      createServer: (server) => dispatch(createServer(server)),
       clearErrors: (errors) => dispatch(clearErrors(errors)),
+      createGeneralChannel: (serverId, channel) => dispatch(createGeneralChannel(serverId, channel)),
     };
 };
 

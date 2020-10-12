@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from "react-router-dom";
 
 class CreateServerForm extends React.Component {
   constructor(props) {
@@ -22,13 +23,18 @@ class CreateServerForm extends React.Component {
       });
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    const server = Object.assign({}, this.state);
-    this.props.processForm(server).then(() => this.props.closeModal());
-    this.setState({
-      server_name: "",
-    });
+  async handleSubmit(e) {
+    await e.preventDefault();
+    const server = await Object.assign({}, this.state);
+    let savedServer = await this.props.createServer(server)
+    await console.log(savedServer.server.id)
+    const channel = await {
+            channel_name: "general"
+          };
+    let savedChannel = await this.props.createGeneralChannel(savedServer.server.id, channel)
+    await console.log(savedChannel.channel)
+    // await this.props.history.push(`/servers/${savedServer.server.id}/${savedChannel.channel.id}`)
+    await this.props.closeModal()
   }
 
   renderErrors() {
@@ -72,5 +78,5 @@ class CreateServerForm extends React.Component {
   }
 }
 
-export default (CreateServerForm);
+export default withRouter(CreateServerForm);
 // export default withRouter(ServerForm);

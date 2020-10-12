@@ -15,6 +15,7 @@ Message.destroy_all
 
 User.connection.execute('ALTER SEQUENCE users_id_seq RESTART WITH 1')
 Server.connection.execute('ALTER SEQUENCE servers_id_seq RESTART WITH 1')
+Channel.connection.execute('ALTER SEQUENCE channels_id_seq RESTART WITH 1')
 Membership.connection.execute('ALTER SEQUENCE memberships_id_seq RESTART WITH 1')
 
 #USERS
@@ -50,16 +51,6 @@ server3 = Server.create!(
     owner_id: user3.id
 )
 
-server4 = Server.create!(
-    server_name: 'server4',
-    owner_id: user1.id
-)
-
-server5 = Server.create!(
-    server_name: 'server5',
-    owner_id: user1.id
-)
-
 #MEMBERSHIPS
 membership1 = Membership.create!(
     user_id: user1.id,
@@ -73,6 +64,11 @@ membership2 = Membership.create!(
 
 
 #CHANNELS
+general1 = Channel.create!(
+    channel_name: "general",
+    server_id: 1
+)
+
 channel1 = Channel.create!(
     channel_name: "channel1",
     server_id: 1
@@ -93,6 +89,11 @@ channel4 = Channel.create!(
     server_id: 1
 )
 
+general2 = Channel.create!(
+    channel_name: "general",
+    server_id: 2
+)
+
 channel5 = Channel.create!(
     channel_name: "channel1",
     server_id: 2
@@ -101,6 +102,22 @@ channel5 = Channel.create!(
 channel6 = Channel.create!(
     channel_name: "channel2",
     server_id: 2
+)
+
+
+general3 = Channel.create!(
+    channel_name: "general",
+    server_id: 3
+)
+
+channel7 = Channel.create!(
+    channel_name: "channel1",
+    server_id: 3
+)
+
+channel8 = Channel.create!(
+    channel_name: "channel2",
+    server_id: 3
 )
 
 

@@ -36,8 +36,9 @@ class ChannelShow extends React.Component {
             // this.bottom.current.scrollIntoView({ behavior: "smooth" });
         };
         
-        
-        this.bottom.current.scrollIntoView({ behavior: "smooth" });
+        if (this.bottom.current) {
+            this.bottom.current.scrollIntoView({ behavior: "smooth" });
+        }
     }
 
     render() {
@@ -67,6 +68,14 @@ class ChannelShow extends React.Component {
           <div className="messages-bar">
             <h1 className="channel-header"># {channel.channel_name}</h1>
             <div className="message-list">
+              <div className="message-list-header">
+                <img src="channel-header.jpg" alt="" />
+                <br />
+                <span className="channel-welcome">Welcome to #{channel.channel_name}</span>
+                <br />
+                <br />
+                <span className="channel-start">This is the start of the #{channel.channel_name} channel</span>
+              </div>
               {messages}
             <div ref={this.bottom}></div>
             </div>

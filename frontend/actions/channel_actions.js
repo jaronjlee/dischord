@@ -47,6 +47,18 @@ export const requestChannel = (serverId, channelId) => dispatch => (
     ))
 );
 
+export const createGeneralChannel = (serverId, channel) => dispatch => (
+    APIUtil.createChannel(serverId, channel)
+);
+
+// export const createGeneralChannel = (serverId, channel) => dispatch => (
+//     APIUtil.createGeneralChannel(serverId, channel).then(channel => (
+//         dispatch(receiveChannel(channel))
+//     ), err => (
+//         dispatch(receiveErrors(err.responseJSON))
+//     ))
+// );
+
 export const createChannel = (serverId, channel) => dispatch => (
     APIUtil.createChannel(serverId, channel).then(channel => (
         dispatch(receiveChannel(channel))
