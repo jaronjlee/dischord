@@ -1,4 +1,5 @@
 .channel-header {
+    position: absolute;
     color: white;
     // padding-left: 10%;
     font-weight: bold;
@@ -17,12 +18,13 @@
     border-width: 1px 0px;
     border-color: #202225;
     top: 0;
+    background-color:#36393F;
+    width: 75%;
 }
-
 
 .message-content {
   // margin-left: 2%;
-  // margin-top: 2%;
+  // margin-top: 10%;
   /* circle styles */
   width: 100%;
   height: auto;
@@ -93,10 +95,16 @@
 
 
 .message-list {
+  // overflow-y: hidden;
   overflow-y: scroll;
-  height: 86%;
+  height: 90%;
+  // height: 86%;
   width: 100%;
   border: none;
+}
+
+.message-list::-webkit-scrollbar {
+  display: none;
 }
 
 .enter-chat {
@@ -107,8 +115,9 @@
 }
 
 .chat-form {
-  margin-bottom: 30px;
-  padding-right: 50px;
+  // position: fixed;
+  // margin-bottom: 30px;
+  // padding-right: 50px;
 }
 
 .chat-button {
@@ -121,6 +130,7 @@
   background-color: #40444B;
   color: white;
   border: none;
+  border-radius: 10px;
 }
 
 .chat-input:focus {
@@ -128,21 +138,38 @@
   box-shadow: none;
 }
 
+// .enter-chat {
+//   position: fixed;
+//   top: 5px;
+//   right: 5px;
+//   background-color: #40444B;
+// }
 
-
-.members-bar {
-    position: absolute;
-    top: 0;
-    right: left;
-    width: 100%;
-    height: 100%;
-    // margin-left: 680%;
-    margin-left: 950%;
-    text-align: left;
-    color: white;
-    background-color:#2E3136;
-    // padding: 20px 0;
+.chat-form {
+  padding: 12px;
 }
+
+// .chat-button {
+//   display: none
+// }
+
+// .chat-input {
+//   width: 100%;
+//   padding: 15px;
+//   background-color: #40444B;
+//   color: white;
+//   border: none;
+// }
+
+// .chat-input:focus {
+//   outline: none;
+//   box-shadow: none;
+// }
+
+.messages-bar {
+  width: 78%;
+}
+
 
 .message-error {
   color:#7289DA;
@@ -197,13 +224,117 @@
   margin-top: 10px;
 }
 .message-list-header{
+  margin-top: 40px;
   padding-bottom: 10px;
 }
 .message-list-header:after{
   content: "";
   display: block;
   margin: 0 auto;
-  width: 99%;
+  width: 100%;
   padding-top: 20px;
   border-bottom: 1px solid gray;
+}
+
+
+
+// .members-bar-container {
+//   display: flex;
+//   // justify-content: flex-end;
+// }
+
+// members
+.members-bar {
+    background-color:#2E3136;
+    width: 25%;
+}
+// .members-bar {
+//     position: fixed;
+//     top: 0;
+//     width: 100%;
+//     height: 100%;
+//     margin-right: 0;
+//     // margin-left: 600px;
+//     text-align: left;
+//     color: white;
+// }
+
+// .members-bar {
+//     position: absolute;
+//     top: 0;
+//     right: left;
+//     width: 100%;
+//     height: 100%;
+//     // margin-left: 680%;
+//     margin-left: 950%;
+//     text-align: left;
+//     color: white;
+//     background-color:#2E3136;
+//     // padding: 20px 0;
+// }
+
+// .member-header {
+//     color: white;
+//     // padding-left: 10%;
+//     font-weight: bold;
+//     font-size: 20px;
+//     text-align: left;
+//     position: inline;
+//     color: white;
+//     padding: 10px;
+//     margin-left: 5px;
+//     border-style: solid;
+//     border-color: transparent;
+//     cursor: default;
+//     // width: 100px;
+//     // height: 50px;
+//     border-style: solid;
+//     border-width: 1px 0px;
+//     border-color: #202225;
+//     top: 0;
+// }
+
+// .member {
+//     margin-top: 10%;
+//     padding-left: 5%;
+//     font-size: 16px;
+//     border-style: solid;
+//     border-color: transparent;
+//     padding: 5px;
+//     margin: 10px;
+//     border-radius: 5px;
+// }
+
+.members-bar-header{
+  font-size: 18px;
+  padding: 10px 15px 10px 10px;
+  border-bottom: 2px solid rgb(39, 39, 39);
+}
+.member-bar-li{
+  display: flex;
+  padding: 10px 10px;
+  line-height: 20px;
+  // cursor: pointer;
+  img{
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    margin-right: 14px;
+  }
+  .member-bar-content{
+    p{
+      color: gray;
+      font-weight: 600;
+      font-size: 14px;
+    }
+  }
+  h3{
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+  }
+}
+.member-bar-li:hover{
+  background-color: #4d5058;
+  border-radius: 5px;
 }

@@ -6,8 +6,9 @@ import ChannelShow from './channel_show';
 const mapStateToProps = (state, ownProps) => {
     return (
         {
+            currentServer: state.entities.servers[ownProps.match.params.serverId],
             channel: state.entities.channels[ownProps.match.params.channelId],
-            messages: Object.values(state.entities.messages)
+            messages: Object.values(state.entities.messages),
         }
     )
 };

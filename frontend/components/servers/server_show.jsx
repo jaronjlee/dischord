@@ -123,7 +123,7 @@ class ServerShow extends React.Component {
                         </div>
                     </div>
                 </footer>
-                <div className="members-bar">
+                {/* <div className="members-bar">
                     <h1 className="member-header">Members</h1>
                     <ul className="members-list">
                         {server.members.map((member) => (
@@ -132,7 +132,7 @@ class ServerShow extends React.Component {
                             </li>
                         ))}
                     </ul>
-                </div>
+                </div> */}
             </div>
         )
     }

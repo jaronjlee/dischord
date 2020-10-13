@@ -8,11 +8,12 @@
 
 .wrapper {
     display: flex;
-    position: relative;
+    position: fixed;
     width: 100%;
     height: 100vh;
     background-color: #36393F;
     overflow: hidden;
+    overflow-y: none;
 }
 
 
@@ -24,7 +25,8 @@
     padding: 20px 0;
     background-color: #202225;
     color: white;
-    // overflow-y: none;
+    overflow: hidden;
+    overflow-y: none;
 }
 
 .wrapper .channel-bar {
@@ -34,19 +36,27 @@
     margin-left: 75px;
     color: white;
     background-color:#2E3136;
+    overflow: hidden;
+    overflow-y: none;
     // padding: 20px 0;
+    // position: sticky;
 }
 
-.wrapper .messages-bar {
+.wrapper .messages-bar-container {
     position: fixed;
     top: 0;
-    width: 100%;
+    width: 88%;
+    // width: 80%;
     height: 100%;
     margin-left: 175px;
     text-align: left;
     color: white;
     background-color:#36393F;
+    display: flex;
     // padding: 20px 0;
+    // overflow: hidden;
+    // overflow-y: none;
+    
 }
 
 // .wrapper .sidebar ul li{
@@ -193,37 +203,7 @@
 
 
 
-.member-header {
-    color: white;
-    // padding-left: 10%;
-    font-weight: bold;
-    font-size: 20px;
-    text-align: left;
-    position: inline;
-    color: white;
-    padding: 10px;
-    margin-left: 5px;
-    border-style: solid;
-    border-color: transparent;
-    cursor: default;
-    // width: 100px;
-    // height: 50px;
-    border-style: solid;
-    border-width: 1px 0px;
-    border-color: #202225;
-    top: 0;
-}
 
-.member {
-    margin-top: 10%;
-    padding-left: 5%;
-    font-size: 16px;
-    border-style: solid;
-    border-color: transparent;
-    padding: 5px;
-    margin: 10px;
-    border-radius: 5px;
-}
 
 .logout-button {
     background-color: #40444B;

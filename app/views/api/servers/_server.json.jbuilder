@@ -5,4 +5,5 @@ json.server_name server.server_name
 json.owner_id server.owner_id
 json.invite_code server.invite_code
 json.members server.members
+json.owner server.owner.username
 
