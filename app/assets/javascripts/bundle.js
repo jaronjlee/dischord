@@ -503,10 +503,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var App = function App() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_8__["ProtectedRoute"], {
     exact: true,
     path: "/",
-    component: _session_form_signup_form_container__WEBPACK_IMPORTED_MODULE_4__["default"]
+    component: _servers_servers_index_container__WEBPACK_IMPORTED_MODULE_6__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_utils__WEBPACK_IMPORTED_MODULE_8__["AuthRoute"], {
     exact: true,
     path: "/login",
@@ -622,12 +622,58 @@ var ChannelShow = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
+    key: "randomMessage",
+    value: function randomMessage(num) {
+      switch (num) {
+        case 1:
+          return "Playing LEAGUE";
+
+        case 2:
+          return "Playing CALL OF DUTY";
+
+        case 3:
+          return "Playing FALL GUYS";
+
+        case 4:
+          return "Playing MINECRAFT";
+
+        case 5:
+          return "Playing STARCRAFT";
+
+        case 6:
+          return "Playing TF2";
+
+        case 7:
+          return "Playing DOTA";
+
+        case 8:
+          return "Playing MARIO CART";
+
+        case 9:
+          return "Playing FORTNITE";
+
+        case 10:
+          return "Playing VALORANT";
+
+        default:
+          return "Transferring to the NFL";
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this3 = this;
+
       if (!this.props.channel) return null;
+      if (!this.props.currentServer) return null;
       if (!this.props.messages) return null;
       if (!this.props) return null;
       var channel = this.props.channel;
+      var currentServer = this.props.currentServer;
+      var serverOwner = this.props.currentServer.owner;
+      var numMembers = this.props.currentServer.members.length + 1;
+      console.log(currentServer); // console.log(currentServer.members[0].username)
+
       var messages = this.props.messages.map(function (message) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message",
@@ -645,11 +691,25 @@ var ChannelShow = /*#__PURE__*/function (_React$Component) {
           className: "message-body"
         }, message.body)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null));
       });
+      var members = this.props.currentServer.members.map(function (member) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          className: "member-bar-li"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: "blue_logo.png",
+          alt: "/"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "member-bar-content"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+          className: "memmber-username"
+        }, member.username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, _this3.randomMessage(Math.floor(Math.random() * 10) + 1)))));
+      });
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "messages-bar"
+        className: "messages-bar-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "channel-header"
       }, "# ", channel.channel_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "messages-bar"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-list"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-list-header"
@@ -664,7 +724,20 @@ var ChannelShow = /*#__PURE__*/function (_React$Component) {
         ref: this.bottom
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_message_form_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
         channel: channel
-      }));
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "members-bar"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "members-bar-header"
+      }, "Members - ".concat(numMembers)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "member-bar-li"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: "blue_logo.png",
+        alt: "justin goes here"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "member-bar-content"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "member-username"
+      }, serverOwner), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.randomMessage(Math.floor(Math.random() * 10) + 1)))), members));
     }
   }]);
 
@@ -695,6 +768,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
+    currentServer: state.entities.servers[ownProps.match.params.serverId],
     channel: state.entities.channels[ownProps.match.params.channelId],
     messages: Object.values(state.entities.messages)
   };
@@ -1749,17 +1823,7 @@ var ServerShow = /*#__PURE__*/function (_React$Component) {
         "class": "fas fa-sign-out-alt"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "toolbar-text"
-      }, "Logout")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "members-bar"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "member-header"
-      }, "Members"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        className: "members-list"
-      }, server.members.map(function (member) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: "member"
-        }, member.username);
-      }))));
+      }, "Logout")))));
     }
   }]);
 
