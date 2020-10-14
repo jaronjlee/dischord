@@ -2565,15 +2565,18 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
         }, this.renderErrors())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           "class": "personal-div"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-          href: "https://www.linkedin.com/in/jaronjlee/"
+          href: "https://www.linkedin.com/in/jaronjlee/",
+          target: "_blank"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: "./linkedin.png"
         })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-          href: "https://github.com/jaronjlee/discord_clone"
+          href: "https://github.com/jaronjlee/",
+          target: "_blank"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: "./personalsite.png"
         })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-          href: "https://github.com/jaronjlee/discord_clone"
+          href: "https://github.com/jaronjlee/discord_clone",
+          target: "_blank"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: "./github.svg"
         })))))
