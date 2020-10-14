@@ -7,8 +7,13 @@ class MessageForm extends React.Component {
       body: "",
       author_id: this.props.currentUser.id,
       channel_id: this.props.channel.id,
+      error: ""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({error: ""})
   }
 
   update(field) {
@@ -17,8 +22,10 @@ class MessageForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    if (this.state.body.length > 200) {
-        return null
+    this.setState({error: ""})
+
+    if (this.state.body.length > 140) {
+        this.setState({error: "Messages must be between 1 and 140 characters"})
     }
     
     App.cable.subscriptions.subscriptions[0].speak({
@@ -29,24 +36,6 @@ class MessageForm extends React.Component {
 
     this.setState({ body: "" });
   }
-
-  renderErrors() {
-    return (
-      <div className="message-error">
-        Messages must be between 1 and 140 characters
-      </div>
-    );
-  }
-
-//   renderErrors() {
-//     return (
-//       <ul>
-//         {this.props.errors.map((error, i) => (
-//           <li key={`error-${i}`}>{error}</li>
-//         ))}
-//       </ul>
-//     );
-//   }
 
   render() {
     return (
@@ -60,7 +49,9 @@ class MessageForm extends React.Component {
             className="chat-input"
             />
           <input className="chat-button" type="submit" />
-        {this.renderErrors()}
+        <div className="message-error">
+          {this.state.error}
+        </div>
         </form>
       </div>
     );

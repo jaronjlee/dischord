@@ -54,70 +54,97 @@ server3 = Server.create!(
 #MEMBERSHIPS
 membership1 = Membership.create!(
     user_id: user1.id,
-    server_id: server2.id
+    server_id: server1.id
 )
 
 membership2 = Membership.create!(
     user_id: user2.id,
+    server_id: server2.id
+)
+
+membership3 = Membership.create!(
+    user_id: user3.id,
+    server_id: server3.id
+)
+
+membership4 = Membership.create!(
+    user_id: user2.id,
     server_id: server1.id
+)
+
+membership5 = Membership.create!(
+    user_id: user3.id,
+    server_id: server1.id
+)
+
+
+
+membership6 = Membership.create!(
+    user_id: user1.id,
+    server_id: server2.id
+)
+
+membership7 = Membership.create!(
+    user_id: user3.id,
+    server_id: server2.id
 )
 
 
 #CHANNELS
 general1 = Channel.create!(
     channel_name: "general",
-    server_id: 1
+    server_id: server1.id
 )
 
 channel1 = Channel.create!(
-    channel_name: "channel1",
-    server_id: 1
+    channel_name: "Football",
+    server_id: server1.id
 )
 
 channel2 = Channel.create!(
-    channel_name: "channel2",
-    server_id: 1
+    channel_name: "Valorant",
+    server_id: server1.id
 )
 
 channel3 = Channel.create!(
-    channel_name: "channel3",
-    server_id: 1
+    channel_name: "League",
+    server_id: server1.id
 )
 
 channel4 = Channel.create!(
-    channel_name: "channel4",
-    server_id: 1
+    channel_name: "Netflix",
+    server_id: server1.id
 )
 
 general2 = Channel.create!(
     channel_name: "general",
-    server_id: 2
+    server_id: server2.id
 )
 
 channel5 = Channel.create!(
-    channel_name: "channel1",
+    channel_name: "Football",
     server_id: 2
 )
 
 channel6 = Channel.create!(
-    channel_name: "channel2",
-    server_id: 2
+    channel_name: "Call of Duty",
+    server_id: server2.id
 )
 
 
 general3 = Channel.create!(
     channel_name: "general",
-    server_id: 3
+    server_id: server3.id
 )
 
 channel7 = Channel.create!(
-    channel_name: "channel1",
-    server_id: 3
+    channel_name: "Fortnite",
+    server_id: server3.id
 )
 
 channel8 = Channel.create!(
-    channel_name: "channel2",
-    server_id: 3
+    channel_name: "Fall Guys",
+    server_id: server3.id
 )
 
 

@@ -90,7 +90,7 @@
 /*!*********************************************!*\
   !*** ./frontend/actions/channel_actions.js ***!
   \*********************************************/
-/*! exports provided: RECEIVE_CHANNELS, RECEIVE_CHANNEL, REMOVE_CHANNEL, RECEIVE_CHANNEL_ERRORS, receiveChannels, receiveChannel, removeChannel, receiveErrors, requestChannels, requestChannel, createGeneralChannel, createChannel, updateChannel, deleteChannel */
+/*! exports provided: RECEIVE_CHANNELS, RECEIVE_CHANNEL, REMOVE_CHANNEL, RECEIVE_CHANNEL_ERRORS, CLEAR_CHANNEL_ERRORS, receiveChannels, receiveChannel, removeChannel, receiveErrors, clearErrors, requestChannels, requestChannel, createGeneralChannel, createChannel, updateChannel, deleteChannel */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -99,10 +99,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_CHANNEL", function() { return RECEIVE_CHANNEL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_CHANNEL", function() { return REMOVE_CHANNEL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_CHANNEL_ERRORS", function() { return RECEIVE_CHANNEL_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_CHANNEL_ERRORS", function() { return CLEAR_CHANNEL_ERRORS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveChannels", function() { return receiveChannels; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveChannel", function() { return receiveChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeChannel", function() { return removeChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveErrors", function() { return receiveErrors; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearErrors", function() { return clearErrors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestChannels", function() { return requestChannels; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestChannel", function() { return requestChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createGeneralChannel", function() { return createGeneralChannel; });
@@ -114,7 +116,8 @@ __webpack_require__.r(__webpack_exports__);
 var RECEIVE_CHANNELS = "RECEIVE_CHANNELS";
 var RECEIVE_CHANNEL = "RECEIVE_CHANNEL";
 var REMOVE_CHANNEL = "REMOVE_CHANNEL";
-var RECEIVE_CHANNEL_ERRORS = "RECEIVE_CHANNEL_ERRORS"; //regular action creators
+var RECEIVE_CHANNEL_ERRORS = "RECEIVE_CHANNEL_ERRORS";
+var CLEAR_CHANNEL_ERRORS = "CLEAR_CHANNEL_ERRORS"; //regular action creators
 
 var receiveChannels = function receiveChannels(channels) {
   return {
@@ -138,6 +141,11 @@ var receiveErrors = function receiveErrors(errors) {
   return {
     type: RECEIVE_CHANNEL_ERRORS,
     errors: errors
+  };
+};
+var clearErrors = function clearErrors() {
+  return {
+    type: CLEAR_CHANNEL_ERRORS
   };
 }; //THUNK ACTION CREATORS
 
@@ -671,8 +679,8 @@ var ChannelShow = /*#__PURE__*/function (_React$Component) {
       var channel = this.props.channel;
       var currentServer = this.props.currentServer;
       var serverOwner = this.props.currentServer.owner;
-      var numMembers = this.props.currentServer.members.length + 1;
-      console.log(currentServer); // console.log(currentServer.members[0].username)
+      var numMembers = this.props.currentServer.members.length; // console.log(currentServer)
+      // console.log(currentServer.members[0].username)
 
       var messages = this.props.messages.map(function (message) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -692,16 +700,18 @@ var ChannelShow = /*#__PURE__*/function (_React$Component) {
         }, message.body)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null));
       });
       var members = this.props.currentServer.members.map(function (member) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          className: "member-bar-li"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: "blue_logo.png",
-          alt: "/"
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "member-bar-content"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-          className: "memmber-username"
-        }, member.username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, _this3.randomMessage(Math.floor(Math.random() * 10) + 1)))));
+        if (member.username != serverOwner) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+            className: "member-bar-li"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+            src: "blue_logo.png",
+            alt: "/"
+          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "member-bar-content"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+            className: "memmber-username"
+          }, member.username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, _this3.randomMessage(Math.floor(Math.random() * 10) + 1)))));
+        }
       });
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "messages-bar-container"
@@ -849,6 +859,11 @@ var CreateChannelForm = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(CreateChannelForm, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.clearErrors();
+    }
+  }, {
     key: "update",
     value: function update(field) {
       var _this2 = this;
@@ -874,6 +889,15 @@ var CreateChannelForm = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "renderErrors",
+    value: function renderErrors() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.errors.map(function (error, i) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          key: "error-".concat(i)
+        }, error);
+      }));
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
@@ -892,7 +916,7 @@ var CreateChannelForm = /*#__PURE__*/function (_React$Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "create-button",
         type: "submit"
-      }, "Create")));
+      }, "Create")), this.renderErrors());
     }
   }]);
 
@@ -923,6 +947,7 @@ var mapStateToProps = function mapStateToProps(state) {
   var session = state.session;
   var users = state.entities.users;
   return {
+    errors: state.errors.channel,
     channel: {
       channel_name: "",
       server_id: ""
@@ -934,6 +959,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     createChannel: function createChannel(serverId, channel) {
       return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_1__["createChannel"])(serverId, channel));
+    },
+    clearErrors: function clearErrors(errors) {
+      return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_1__["clearErrors"])(errors));
     }
   };
 };
@@ -993,13 +1021,21 @@ var MessageForm = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       body: "",
       author_id: _this.props.currentUser.id,
-      channel_id: _this.props.channel.id
+      channel_id: _this.props.channel.id,
+      error: ""
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(MessageForm, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.setState({
+        error: ""
+      });
+    }
+  }, {
     key: "update",
     value: function update(field) {
       var _this2 = this;
@@ -1012,9 +1048,14 @@ var MessageForm = /*#__PURE__*/function (_React$Component) {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       e.preventDefault();
+      this.setState({
+        error: ""
+      });
 
-      if (this.state.body.length > 200) {
-        return null;
+      if (this.state.body.length > 140) {
+        this.setState({
+          error: "Messages must be between 1 and 140 characters"
+        });
       }
 
       App.cable.subscriptions.subscriptions[0].speak({
@@ -1026,22 +1067,6 @@ var MessageForm = /*#__PURE__*/function (_React$Component) {
         body: ""
       });
     }
-  }, {
-    key: "renderErrors",
-    value: function renderErrors() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-error"
-      }, "Messages must be between 1 and 140 characters");
-    } //   renderErrors() {
-    //     return (
-    //       <ul>
-    //         {this.props.errors.map((error, i) => (
-    //           <li key={`error-${i}`}>{error}</li>
-    //         ))}
-    //       </ul>
-    //     );
-    //   }
-
   }, {
     key: "render",
     value: function render() {
@@ -1057,7 +1082,9 @@ var MessageForm = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "chat-button",
         type: "submit"
-      }), this.renderErrors()));
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-error"
+      }, this.state.error)));
     }
   }]);
 
@@ -1233,29 +1260,25 @@ var CreateServerForm = /*#__PURE__*/function (_React$Component) {
               case 7:
                 savedServer = _context.sent;
                 _context.next = 10;
-                return console.log(savedServer.server.id);
-
-              case 10:
-                _context.next = 12;
                 return {
                   channel_name: "general"
                 };
 
-              case 12:
+              case 10:
                 channel = _context.sent;
-                _context.next = 15;
-                return this.props.createGeneralChannel(savedServer.server.id, channel);
+                _context.next = 13;
+                return this.props.createChannel(savedServer.server.id, channel);
 
-              case 15:
+              case 13:
                 savedChannel = _context.sent;
-                _context.next = 18;
-                return console.log(savedChannel.channel);
+                _context.next = 16;
+                return this.props.history.push("/servers/".concat(savedServer.server.id, "/").concat(savedChannel.channel.id));
 
-              case 18:
-                _context.next = 20;
+              case 16:
+                _context.next = 18;
                 return this.props.closeModal();
 
-              case 20:
+              case 18:
               case "end":
                 return _context.stop();
             }
@@ -1350,6 +1373,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     createGeneralChannel: function createGeneralChannel(serverId, channel) {
       return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["createGeneralChannel"])(serverId, channel));
+    },
+    createChannel: function createChannel(serverId, channel) {
+      return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["createChannel"])(serverId, channel));
     }
   };
 };
@@ -1902,6 +1928,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _server_index_item_container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./server_index_item_container */ "./frontend/components/servers/server_index_item_container.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -1954,9 +1984,51 @@ var ServersIndex = /*#__PURE__*/function (_React$Component) {
 
   _createClass(ServersIndex, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      this.props.requestServers();
-    }
+    value: function () {
+      var _componentDidMount = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var firstServerId, firstChannelId;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this.props.requestServers();
+
+              case 2:
+                _context.next = 4;
+                return this.props.servers[0].id;
+
+              case 4:
+                firstServerId = _context.sent;
+                _context.next = 7;
+                return this.props.requestChannels(firstServerId);
+
+              case 7:
+                _context.next = 9;
+                return this.props.channels[0].id;
+
+              case 9:
+                firstChannelId = _context.sent;
+                _context.next = 12;
+                return this.props.history.push("/servers/".concat(firstServerId, "/").concat(firstChannelId));
+
+              case 12:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function componentDidMount() {
+        return _componentDidMount.apply(this, arguments);
+      }
+
+      return componentDidMount;
+    }() // componentDidMount () {
+    //     this.props.requestServers();
+    // }
+
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
@@ -2000,12 +2072,14 @@ var ServersIndex = /*#__PURE__*/function (_React$Component) {
         className: "wrapper"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "home-button",
-        to: "/"
-      }, "H", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "home"
-      }, "Home")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "side-logout-button",
+        onClick: this.props.logout
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        "class": "fas fa-sign-out-alt"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "side-logout-button-tooltiptext"
+      }, "Logout")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "add-server",
         onClick: this.toggleCreateModal
       }, "+", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -2094,8 +2168,10 @@ var ServersIndex = /*#__PURE__*/function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
-/* harmony import */ var _servers_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./servers_index */ "./frontend/components/servers/servers_index.jsx");
-/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.js");
+/* harmony import */ var _servers_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./servers_index */ "./frontend/components/servers/servers_index.jsx");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
+
 
 
 
@@ -2105,7 +2181,8 @@ var mapStateToProps = function mapStateToProps(state) {
   var session = state.session;
   var users = state.entities.users;
   return {
-    servers: Object.values(state.entities.servers)
+    servers: Object.values(state.entities.servers),
+    channels: Object.values(state.entities.channels)
   };
 };
 
@@ -2114,13 +2191,16 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     requestServers: function requestServers() {
       return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_1__["requestServers"])());
     },
+    requestChannels: function requestChannels(serverId) {
+      return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["requestChannels"])(serverId));
+    },
     logout: function logout() {
-      return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["logout"])());
+      return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_4__["logout"])());
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_servers_index__WEBPACK_IMPORTED_MODULE_2__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_servers_index__WEBPACK_IMPORTED_MODULE_3__["default"]));
 
 /***/ }),
 
@@ -2138,6 +2218,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _session_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./session_form */ "./frontend/components/session_form/session_form.jsx");
+/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.js");
+
+
 
 
 
@@ -2146,7 +2230,9 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     errors: state.errors.session,
-    formType: 'login'
+    formType: 'login',
+    servers: state.entities.servers,
+    channels: state.entities.channels
   };
 };
 
@@ -2160,6 +2246,15 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
     },
     clearErrors: function clearErrors(errors) {
       return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["clearErrors"])(errors));
+    },
+    requestServer: function requestServer(serverId) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_4__["requestServer"])(serverId));
+    },
+    requestServers: function requestServers() {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_4__["requestServers"])());
+    },
+    requestChannels: function requestChannels(serverId) {
+      return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_5__["requestChannels"])(serverId));
     }
   };
 };
@@ -2181,6 +2276,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -2222,8 +2321,9 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
       username: '',
       password: ''
     };
-    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
-    _this.handleDemo = _this.handleDemo.bind(_assertThisInitialized(_this));
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this)); // this.handleDemo = this.handleDemo.bind(this);
+
+    _this.demoUser = _this.demoUser.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2243,11 +2343,69 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "handleSubmit",
-    value: function handleSubmit(e) {
-      e.preventDefault();
-      var user = Object.assign({}, this.state);
-      this.props.processForm(user);
-    }
+    value: function () {
+      var _handleSubmit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
+        var user, savedUser, server, savedServer, channel, savedChannel;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return e.preventDefault();
+
+              case 2:
+                _context.next = 4;
+                return Object.assign({}, this.state);
+
+              case 4:
+                user = _context.sent;
+                _context.next = 7;
+                return this.props.processForm(user);
+
+              case 7:
+                savedUser = _context.sent;
+                _context.next = 10;
+                return {
+                  server_name: "general",
+                  owner_id: savedUser.id
+                };
+
+              case 10:
+                server = _context.sent;
+                _context.next = 13;
+                return this.props.createServer(server);
+
+              case 13:
+                savedServer = _context.sent;
+                _context.next = 16;
+                return {
+                  channel_name: "general"
+                };
+
+              case 16:
+                channel = _context.sent;
+                _context.next = 19;
+                return this.props.createChannel(savedServer.server.id, channel);
+
+              case 19:
+                savedChannel = _context.sent;
+                _context.next = 22;
+                return this.props.history.push("/servers/".concat(savedServer.server.id, "/").concat(savedChannel.channel.id));
+
+              case 22:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function handleSubmit(_x) {
+        return _handleSubmit.apply(this, arguments);
+      }
+
+      return handleSubmit;
+    }()
   }, {
     key: "renderErrors",
     value: function renderErrors() {
@@ -2292,16 +2450,75 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
         className: "session-link",
         to: "/signup"
       }, "  Register"));
-    }
+    } // handleDemo(e) {
+    //     e.preventDefault();
+    //     const demoUser = {
+    //         username: 'demo1',
+    //         password: 'password'
+    //     }
+    // await this.props.processForm(demoUser)
+    // await this.props.requestServers();
+    // console.log(this.props.servers)
+    // let server = await this.props.servers[0]
+    // await this.props.requestChannels(server.id)
+    // let channel = await this.props.channels[0]
+    // await this.props.history.push(`/servers/${server.id}/${channel.id}`)
+    // }
+
   }, {
-    key: "handleDemo",
-    value: function handleDemo(e) {
+    key: "demoUser",
+    value: function demoUser(e) {
+      var _this3 = this;
+
       e.preventDefault();
       var demoUser = {
-        username: 'demo1',
-        password: 'password'
+        username: "demo1",
+        password: "password"
       };
-      this.props.processForm(demoUser);
+      var username = demoUser.username,
+          password = demoUser.password;
+      var interval = 150;
+
+      var login = function login() {
+        _this3.props.processForm(_this3.state); // this.props.history.push("/")
+
+      };
+
+      if (this.state.username !== username) {
+        var inputUsername = setInterval(function () {
+          if (_this3.state.username !== username) {
+            var tempUsername = username.slice(0, _this3.state.username.length + 1);
+
+            _this3.setState({
+              username: tempUsername
+            });
+          } else {
+            clearInterval(inputUsername);
+            fillPassword();
+          }
+        }, interval);
+      }
+
+      var fillPassword = function fillPassword() {
+        var inputPassword = setInterval(function () {
+          if (_this3.state.password !== password) {
+            var tempPassword = password.slice(0, _this3.state.password.length + 1);
+
+            _this3.setState({
+              password: tempPassword
+            });
+          } else {
+            clearInterval(inputPassword);
+            login();
+          }
+        }, interval);
+      }; // await this.props.requestServers();
+      // console.log(this.props.servers)
+      // let server = await this.props.servers[0]
+      // await this.props.requestChannels(server.id)
+      // let channel = await this.props.channels[0]
+      // await this.props.history.push(`/servers/${server.id}/${channel.id}`)
+
     }
   }, {
     key: "render",
@@ -2342,7 +2559,7 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
           type: "submit"
         }, "Continue"), formType == "login" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           className: "button",
-          onClick: this.handleDemo
+          onClick: this.demoUser
         }, "Demo") : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, formType == "login" ? this.signUpMessage() : this.loginMessage()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           id: "session-errors"
         }, this.renderErrors())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2361,68 +2578,7 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
           src: "./github.svg"
         })))))
       );
-    } // render() {
-    //     const {formType} = this.props
-    //     return (
-    //       <div className="whole-page">
-    //         <header>
-    //           <h1 className="dischord">Dischord</h1>
-    //         </header>
-    //         <br />
-    //         <form className="session-form-box" onSubmit={this.handleSubmit}>
-    //           <h2 className="session-header">
-    //             {" "}
-    //             {formType == "login"
-    //               ? this.loginHeader()
-    //               : this.signUpHeader()}{" "}
-    //           </h2>
-    //           <br />
-    //           <label className="login-label">
-    //             USERNAME
-    //             <br />
-    //             <input
-    //               className="input-box"
-    //               type="text"
-    //               value={this.state.username}
-    //               onChange={this.update("username")}
-    //             />
-    //           </label>
-    //           <br />
-    //           <label className="login-label">
-    //             PASSWORD
-    //             <br />
-    //             <input
-    //               className="input-box"
-    //               type="password"
-    //               value={this.state.password}
-    //               onChange={this.update("password")}
-    //             />
-    //           </label>
-    //           <br />
-    //           <button className="button" type="submit">
-    //             Continue
-    //           </button>
-    //           {formType == "login" ? (
-    //             <button className="button" onClick={this.handleDemo}>
-    //               Demo
-    //             </button>
-    //           ) : null}
-    //           <br />
-    //           <div>
-    //             {formType == "login"
-    //               ? this.signUpMessage()
-    //               : this.loginMessage()}
-    //           </div>
-    //           <br />
-    //           <br />
-    //           <div id="session-errors">
-    //               {this.renderErrors()}
-    //           </div>
-    //         </form>
-    //       </div>
-    //     );
-    // }
-
+    }
   }]);
 
   return SessionForm;
@@ -2446,6 +2602,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _session_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./session_form */ "./frontend/components/session_form/session_form.jsx");
+/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.js");
+
+
 
 
 
@@ -2454,7 +2614,8 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     errors: state.errors.session,
-    formType: 'signup'
+    formType: 'signup',
+    currentUser: state.entities.users[state.session.id]
   };
 };
 
@@ -2465,6 +2626,15 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
     },
     clearErrors: function clearErrors(errors) {
       return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["clearErrors"])(errors));
+    },
+    createServer: function createServer(server) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_4__["createServer"])(server));
+    },
+    createGeneralChannel: function createGeneralChannel(serverId, channel) {
+      return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_5__["createGeneralChannel"])(serverId, channel));
+    },
+    createChannel: function createChannel(serverId, channel) {
+      return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_5__["createChannel"])(serverId, channel));
     }
   };
 };
@@ -2737,6 +2907,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
 /***/ }),
 
+/***/ "./frontend/reducers/channel_errors_reducer.js":
+/*!*****************************************************!*\
+  !*** ./frontend/reducers/channel_errors_reducer.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/channel_actions */ "./frontend/actions/channel_actions.js");
+
+
+var channelErrorsReducer = function channelErrorsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+
+  switch (action.type) {
+    case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CHANNEL_ERRORS"]:
+      return action.errors;
+
+    case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["CLEAR_CHANNEL_ERRORS"]:
+      return [];
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (channelErrorsReducer);
+
+/***/ }),
+
 /***/ "./frontend/reducers/channels_reducer.js":
 /*!***********************************************!*\
   !*** ./frontend/reducers/channels_reducer.js ***!
@@ -2818,7 +3021,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _session_errors_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./session_errors_reducer */ "./frontend/reducers/session_errors_reducer.js");
 /* harmony import */ var _server_errors_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./server_errors_reducer */ "./frontend/reducers/server_errors_reducer.js");
-/* harmony import */ var _message_errors_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./message_errors_reducer */ "./frontend/reducers/message_errors_reducer.js");
+/* harmony import */ var _channel_errors_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channel_errors_reducer */ "./frontend/reducers/channel_errors_reducer.js");
+/* harmony import */ var _message_errors_reducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./message_errors_reducer */ "./frontend/reducers/message_errors_reducer.js");
+
 
 
 
@@ -2826,7 +3031,8 @@ __webpack_require__.r(__webpack_exports__);
 var errorsReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   session: _session_errors_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
   server: _server_errors_reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
-  message: _message_errors_reducer__WEBPACK_IMPORTED_MODULE_3__["default"]
+  channel: _channel_errors_reducer__WEBPACK_IMPORTED_MODULE_3__["default"],
+  message: _message_errors_reducer__WEBPACK_IMPORTED_MODULE_4__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (errorsReducer);
 

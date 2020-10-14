@@ -175,3 +175,44 @@
     font-size: 16px;
 }
 
+.side-logout-button-tooltiptext {
+    font-size: 16px;
+}
+
+.side-logout-button {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+/* Tooltip text */
+.side-logout-button .side-logout-button-tooltiptext {
+    top: 13px;
+    left: 105%;
+    visibility: hidden;
+    width: 70px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    margin-left: 5px;
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+/* Show the tooltip text when you mouse over the tooltip container */
+
+.side-logout-button:hover .side-logout-button-tooltiptext {
+    visibility: visible;
+}
+
+.side-logout-button .side-logout-button-tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    right: 100%; /* To the left of the tooltip */
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+}

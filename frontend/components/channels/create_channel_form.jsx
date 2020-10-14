@@ -11,6 +11,10 @@ class CreateChannelForm extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount() {
+    this.props.clearErrors();
+    }
+
     update(field) {
         return e => this.setState({
             [field]: e.currentTarget.value
@@ -27,6 +31,16 @@ class CreateChannelForm extends React.Component {
             channel_name: '',
             server_id: ''
         })
+    }
+
+    renderErrors() {
+        return (
+        <ul>
+            {this.props.errors.map((error, i) => (
+            <li key={`error-${i}`}>{error}</li>
+            ))}
+        </ul>
+        );
     }
 
     render() {
@@ -54,6 +68,7 @@ class CreateChannelForm extends React.Component {
                     >Create
                         </button>
                 </form>
+                {this.renderErrors()}
             </div>
         )
     }

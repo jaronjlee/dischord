@@ -21,9 +21,21 @@ class ServersIndex extends React.Component {
         // this.switchServer = this.switchServer.bind(this);
     }
 
-    componentDidMount () {
-        this.props.requestServers();
+    async componentDidMount () {
+        await this.props.requestServers();
+        let firstServerId = await this.props.servers[0].id
+        // console.log(firstServerId)
+        await this.props.requestChannels(firstServerId)
+        let firstChannelId = await this.props.channels[0].id
+        // console.log(firstChannelId)
+        await this.props.history.push(
+          `/servers/${firstServerId}/${firstChannelId}`
+        );
     }
+
+    // componentDidMount () {
+    //     this.props.requestServers();
+    // }
 
     componentDidUpdate(prevProps) {
         if ((prevProps.servers.length) !== (this.props.servers.length)) {
@@ -61,24 +73,13 @@ class ServersIndex extends React.Component {
           <div className="wrapper">
             <div className="sidebar">
               <ul>
-                {/* <button className="logout-button" onClick={this.props.logout}>
-                  Logout
-                </button> */}
-
-                <Link className="home-button" to="/">
-                  H<span className="home">Home</span>
-                </Link>
-
-                {/* <div>
-                  <img
-                    src="white_logo.png" 
-                    alt="alt text" 
-                    className="home-button"
-                    onClick={() => this.props.history.push(`/`)}
-                  />
-                  <span className="home">Home</span>
-                </div> */}
-
+                <button 
+                  className="side-logout-button" 
+                  onClick={this.props.logout}>
+                  <i class="fas fa-sign-out-alt"></i>
+                  <span className="side-logout-button-tooltiptext">Logout</span>
+                  {/* Logout */}
+                </button>
                 <button className="add-server" onClick={this.toggleCreateModal}>
                   +<span className="add-server-tooltiptext">Add Server</span>
                 </button>

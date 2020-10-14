@@ -79,8 +79,8 @@ class ChannelShow extends React.Component {
         const channel = this.props.channel;
         const currentServer = this.props.currentServer;
         const serverOwner = this.props.currentServer.owner;
-        const numMembers = this.props.currentServer.members.length + 1;
-        console.log(currentServer)
+        const numMembers = this.props.currentServer.members.length;
+        // console.log(currentServer)
         // console.log(currentServer.members[0].username)
 
         const messages = this.props.messages.map(message => {
@@ -101,19 +101,24 @@ class ChannelShow extends React.Component {
         })
 
         const members = this.props.currentServer.members.map(member => {
-            return (
-              <ul>
-                <li className="member-bar-li">
-                  <img src="blue_logo.png" alt="/" />
-                  <div className="member-bar-content">
-                    <h3 className="memmber-username">{member.username}</h3>
-                    <p>
-                      {this.randomMessage(Math.floor(Math.random() * 10) + 1)}
-                    </p>
-                  </div>
-                </li>
-              </ul>
-            );
+            if (member.username != serverOwner) {
+                return (
+                  <ul>
+                    <li className="member-bar-li">
+                      <img src="blue_logo.png" alt="/" />
+                      <div className="member-bar-content">
+                        <h3 className="memmber-username">
+                            {member.username}
+                            {/* {member.username != serverOwner? member.username: null} */}
+                            </h3>
+                        <p>
+                          {this.randomMessage(Math.floor(Math.random() * 10) + 1)}
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                );
+            }
         })
 
 

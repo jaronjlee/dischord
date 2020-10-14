@@ -101,6 +101,7 @@
 
 .server-link:hover {
     background-color: #7289DA;
+    border-radius: 32%;
 }
 .server-link:focus {
   outline: none;
@@ -115,6 +116,37 @@
 // .wrapper .sidebar ul li:hover{
 //     background-color: #7289DA;
 // }
+
+.side-logout-button {
+    padding: 15px;
+    border: none;
+    background-color: #7289DA;
+    border-radius: 50%;
+    position: relative;
+    text-align: center;
+    height: 55px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    width: 55px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.side-logout-button:hover {
+    border-radius: 35%;
+    background-color: red;
+    // color: red;
+    // background-color: rgb(119, 119, 119);
+    // color: red;
+}
+
+.side-logout-button:focus {
+  outline: none;
+  box-shadow: none;
+}
 
 .home-button {
     padding: 15px;
@@ -141,7 +173,7 @@
 .add-server {
     padding: 15px;
     border: none;
-    background-color: #36393F;
+    background-color: #7289DA;
     border-radius: 50%;
     position: relative;
     text-align: center;
@@ -159,7 +191,7 @@
 .join-server {
     padding: 15px;
     border: none;
-    background-color: #36393F;
+    background-color: #7289DA;
     border-radius: 50%;
     position: relative;
     text-align: center;
@@ -176,10 +208,12 @@
 
 .join-server:hover {
     background-color: #43B581;
+    border-radius: 35%;
 }
 
 .add-server:hover {
-    background-color: #7289DA;
+    background-color: #43B581;
+    border-radius: 35%;
 }
 
 .join-server:focus {
