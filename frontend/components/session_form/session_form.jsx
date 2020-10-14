@@ -10,7 +10,8 @@ class SessionForm extends React.Component {
             password: ''
         };
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleDemo = this.handleDemo.bind(this);
+        // this.handleDemo = this.handleDemo.bind(this);
+        this.demoUser = this.demoUser.bind(this);
     }
 
     componentDidMount() {
@@ -23,11 +24,27 @@ class SessionForm extends React.Component {
         });
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
+    async handleSubmit(e) {
+        await e.preventDefault();
 
-        const user = Object.assign({}, this.state);
-        this.props.processForm(user);
+        const user = await Object.assign({}, this.state);
+        let savedUser = await this.props.processForm(user);
+
+        let server = await {
+          server_name: "general",
+          owner_id: savedUser.id
+        }
+
+        let savedServer = await this.props.createServer(server)
+
+        const channel = await {
+            channel_name: "general"
+          };
+
+        let savedChannel = await this.props.createChannel(savedServer.server.id, channel)
+
+
+        await this.props.history.push(`/servers/${savedServer.server.id}/${savedChannel.channel.id}`)
     }
 
     renderErrors() {
@@ -75,14 +92,64 @@ class SessionForm extends React.Component {
         )
     }
 
-    handleDemo(e) {
-        e.preventDefault();
-        const demoUser = {
-            username: 'demo1',
-            password: 'password'
-        }
-        this.props.processForm(demoUser)
+    // handleDemo(e) {
+    //     e.preventDefault();
+    //     const demoUser = {
+    //         username: 'demo1',
+    //         password: 'password'
+    //     }
+        // await this.props.processForm(demoUser)
+        // await this.props.requestServers();
+        // console.log(this.props.servers)
+        // let server = await this.props.servers[0]
+        // await this.props.requestChannels(server.id)
+        // let channel = await this.props.channels[0]
+        // await this.props.history.push(`/servers/${server.id}/${channel.id}`)
+    // }
+
+    demoUser(e) {
+      e.preventDefault();
+      const demoUser = {
+        username: "demo1",
+        password: "password",
+      };
+      let { username, password } = demoUser;
+      let interval = 150;
+      let login = () => {
+        this.props.processForm(this.state);
+        // this.props.history.push("/")
+      };
+      if (this.state.username !== username) {
+        let inputUsername = setInterval(() => {
+          if (this.state.username !== username) {
+            let tempUsername = username.slice(0, this.state.username.length + 1);
+            this.setState({ username: tempUsername });
+          } else {
+            clearInterval(inputUsername);
+            fillPassword();
+          }
+        }, interval);
+      }
+      let fillPassword = () => {
+        let inputPassword = setInterval(() => {
+          if (this.state.password !== password) {
+            let tempPassword = password.slice(0, this.state.password.length + 1);
+            this.setState({ password: tempPassword });
+          } else {
+            clearInterval(inputPassword);
+            login();
+          }
+        }, interval);
+      };
+
+      // await this.props.requestServers();
+      // console.log(this.props.servers)
+      // let server = await this.props.servers[0]
+      // await this.props.requestChannels(server.id)
+      // let channel = await this.props.channels[0]
+      // await this.props.history.push(`/servers/${server.id}/${channel.id}`)
     }
+
 
     render() {
         const {formType} = this.props
@@ -128,7 +195,8 @@ class SessionForm extends React.Component {
                 Continue
               </button>
               {formType == "login" ? (
-                <button className="button" onClick={this.handleDemo}>
+                <button className="button" onClick={this.demoUser}>
+                {/* // <button className="button" onClick={this.handleDemo}> */}
                   Demo
                 </button>
               ) : null}
@@ -138,11 +206,6 @@ class SessionForm extends React.Component {
                   ? this.signUpMessage()
                   : this.loginMessage()}
               </div>
-              {/* <div>
-                {formType == "login"
-                  ? this.signUpMessage()
-                  : this.loginMessage()}
-              </div> */}
               <br />
 
               <br />
@@ -168,69 +231,6 @@ class SessionForm extends React.Component {
           </div>
         );
     }
-
-    // render() {
-    //     const {formType} = this.props
-    //     return (
-    //       <div className="whole-page">
-    //         <header>
-    //           <h1 className="dischord">Dischord</h1>
-    //         </header>
-    //         <br />
-    //         <form className="session-form-box" onSubmit={this.handleSubmit}>
-    //           <h2 className="session-header">
-    //             {" "}
-    //             {formType == "login"
-    //               ? this.loginHeader()
-    //               : this.signUpHeader()}{" "}
-    //           </h2>
-    //           <br />
-    //           <label className="login-label">
-    //             USERNAME
-    //             <br />
-    //             <input
-    //               className="input-box"
-    //               type="text"
-    //               value={this.state.username}
-    //               onChange={this.update("username")}
-    //             />
-    //           </label>
-    //           <br />
-    //           <label className="login-label">
-    //             PASSWORD
-    //             <br />
-    //             <input
-    //               className="input-box"
-    //               type="password"
-    //               value={this.state.password}
-    //               onChange={this.update("password")}
-    //             />
-    //           </label>
-    //           <br />
-    //           <button className="button" type="submit">
-    //             Continue
-    //           </button>
-    //           {formType == "login" ? (
-    //             <button className="button" onClick={this.handleDemo}>
-    //               Demo
-    //             </button>
-    //           ) : null}
-    //           <br />
-    //           <div>
-    //             {formType == "login"
-    //               ? this.signUpMessage()
-    //               : this.loginMessage()}
-    //           </div>
-    //           <br />
-
-    //           <br />
-    //           <div id="session-errors">
-    //               {this.renderErrors()}
-    //           </div>
-    //         </form>
-    //       </div>
-    //     );
-    // }
 }
 
 export default SessionForm;

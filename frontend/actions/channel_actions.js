@@ -4,7 +4,7 @@ export const RECEIVE_CHANNELS = "RECEIVE_CHANNELS"
 export const RECEIVE_CHANNEL = "RECEIVE_CHANNEL"
 export const REMOVE_CHANNEL = "REMOVE_CHANNEL"
 export const RECEIVE_CHANNEL_ERRORS = "RECEIVE_CHANNEL_ERRORS"
-
+export const CLEAR_CHANNEL_ERRORS = "CLEAR_CHANNEL_ERRORS";
 
 
 //regular action creators
@@ -26,7 +26,11 @@ export const removeChannel = (channelId) => ({
 export const receiveErrors = (errors) => ({
     type: RECEIVE_CHANNEL_ERRORS,
     errors
-})
+});
+
+export const clearErrors = () => ({
+    type: CLEAR_CHANNEL_ERRORS,
+});
 
 
 //THUNK ACTION CREATORS

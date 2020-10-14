@@ -13,7 +13,6 @@ class ServerIndexItem extends React.Component {
 
 
   handleClick() {
-
     this.props.requestServer(this.props.server.id).then(() => {
       this.props.requestChannels(this.props.server.id).then(() => {
         let channelId = Object.keys(this.props.channels)[0];

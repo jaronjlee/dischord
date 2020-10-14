@@ -27,13 +27,14 @@ class CreateServerForm extends React.Component {
     await e.preventDefault();
     const server = await Object.assign({}, this.state);
     let savedServer = await this.props.createServer(server)
-    await console.log(savedServer.server.id)
+    // await console.log(savedServer.server.id)
     const channel = await {
             channel_name: "general"
           };
-    let savedChannel = await this.props.createGeneralChannel(savedServer.server.id, channel)
-    await console.log(savedChannel.channel)
-    // await this.props.history.push(`/servers/${savedServer.server.id}/${savedChannel.channel.id}`)
+    let savedChannel = await this.props.createChannel(savedServer.server.id, channel)
+    // let savedChannel = await this.props.createGeneralChannel(savedServer.server.id, channel)
+    // await console.log(savedChannel.channel)
+    await this.props.history.push(`/servers/${savedServer.server.id}/${savedChannel.channel.id}`)
     await this.props.closeModal()
   }
 

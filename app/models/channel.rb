@@ -11,7 +11,7 @@
 class Channel < ApplicationRecord
 
     validates :channel_name, :server_id, presence: true
-    validates :channel_name, length: {maximum: 17}
+    validates :channel_name, length: {maximum: 12}
 
     belongs_to :server,
         foreign_key: :server_id,

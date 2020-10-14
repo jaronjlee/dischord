@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { createChannel } from '../../actions/channel_actions';
+import { createChannel, clearErrors } from '../../actions/channel_actions';
 import CreateChannelForm from './create_channel_form';
 
 
@@ -7,6 +7,7 @@ const mapStateToProps = (state) => {
     const session = state.session;
     const users = state.entities.users
     return ({
+        errors: state.errors.channel,
         channel: {
             channel_name: "",
             server_id: "",
@@ -16,7 +17,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        createChannel: (serverId, channel) => dispatch(createChannel(serverId, channel))
+        createChannel: (serverId, channel) => dispatch(createChannel(serverId, channel)),
+        clearErrors: (errors) => dispatch(clearErrors(errors)),
     };
 };
 

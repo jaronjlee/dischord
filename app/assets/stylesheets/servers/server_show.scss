@@ -84,16 +84,18 @@
 }
 
 .text-channels {
-    color: white;
-    padding-left: 10%;
-    font-size: 16px;
+    // color: white;
+    color: #72767D;
+    // padding-left: 10%;
+    padding-top: 10%;
+    font-size: 15px;
     // text-align: center;
     // background-color: #393D42;
     position: inline;
-    color: white;
+    // color: white;
     // padding: 5px;
-    margin: 10px;
-    border-radius: 5px;
+    margin-left: 10px;
+    // border-radius: 5px;
     border-style: solid;
     border-color: transparent;
 }
@@ -154,15 +156,32 @@
 
 .channel-bar .invite-code{
     padding-left: 11px;
-    padding-top: 15px;
+    // padding-top: 15px;
     cursor: pointer;
     margin-left: 10%;
+    color: white;
+    padding-left: 10%;
+    font-size: 16px;
+    text-align: center;
+    background-color: #393D42;
+    position: inline;
+    color: white;
+    padding: 5px;
+    margin: 10px;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: transparent;
+}
+
+.channel-bar .invite-code:hover {
+    background-color: #7289DA;
+    cursor: pointer;
 }
 
 
 
 .user-toolbar-buttons{
-    margin-left: 40px;
+    margin-left: 30px;
     margin-top: 0px;
 }
 .logout-button-container{
