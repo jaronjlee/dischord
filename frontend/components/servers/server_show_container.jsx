@@ -17,8 +17,9 @@ const mapStateToProps = (state, ownProps) => {
 
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    requestServer: () => dispatch(requestServer(ownProps.match.params.serverId)),
-    requestChannels: () => dispatch(requestChannels(ownProps.match.params.serverId)),
+    requestServer: (serverId) => dispatch(requestServer(serverId)),
+    // requestServer: () => dispatch(requestServer(ownProps.match.params.serverId)), //old way before hooks. now the match params is taken care of using useParams hook
+    requestChannels: (serverId) => dispatch(requestChannels(serverId)),
     logout: () => dispatch(logout()),
 })
 
