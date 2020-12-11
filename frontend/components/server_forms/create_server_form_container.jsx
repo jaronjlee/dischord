@@ -8,10 +8,7 @@ const mapStateToProps = (state) => {
     const users = state.entities.users
     return ({
         errors: state.errors.server,
-        server: {
-            server_name: "",
-            owner_id: users[session.id],
-        },
+        owner_id: users[session.id],
         formType: "Create",
     });
 };

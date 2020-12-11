@@ -32,6 +32,14 @@ function ServerShow({
         }
         getChannels()
     }, [])
+
+    useEffect(() => {
+        async function getChannels() {
+            await requestServer(serverId);
+            await requestChannels(serverId)
+        }
+        getChannels()
+    }, [serverId])
     
         if (!server) return null;
         const currentUsername = currentUser.username

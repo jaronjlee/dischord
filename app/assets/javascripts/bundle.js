@@ -569,6 +569,188 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+// import React, {useEffect, useState, useRef} from 'react';
+// import Modal from 'react-modal';
+// import MessageFormContainer from "./message_form_container";
+// import { 
+//     useParams,
+//     useLocation
+// } from 'react-router-dom';
+// function ChannelShow({
+//     currentServer,
+//     channel,
+//     stateMessages,
+//     requestChannel,
+//     requestMessages,
+//     receiveMessage
+// }){
+//     //     constructor(props) {
+//     //         super(props)
+//     //         this.state = {
+//     //             showCreateModal: false,
+//     //             messages: this.props.messages
+//     //         }
+//     //         this.bottom = React.createRef();
+//     //     }
+//     // const [messages, setMessages] = useState(stateMessages)
+//     const {channelId} = useParams();
+//     const messagesEndRef = useRef(null);
+//     const scrollToBottom = () => {
+//         messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+//     };
+//     useEffect(() => {
+//         App.cable.subscriptions.create(
+//             { channel: "ChatChannel" },//create subscription to ChatChannel
+//             {
+//                 received: data => {   //when client is subscribed, listen to channel for new data
+//                     requestMessages();
+//                 },
+//                 speak: function (data) { //sends data to backend
+//                     return perform("speak", data);
+//                     // return this.perform("speak", data);
+//                 }
+//             }
+//             );
+//         requestChannel();
+//         requestMessages();
+//     }, [])
+//     // componentDidMount() {
+//     //     App.cable.subscriptions.create(
+//     //         { channel: "ChatChannel" },//create subscription to ChatChannel
+//     //         {
+//     //             received: data => {   //when client is subscribed, listen to channel for new data
+//     //                 this.props.requestMessages();
+//     //             },
+//     //             speak: function (data) { //sends data to backend
+//     //                 return this.perform("speak", data);
+//     //             }
+//     //         }
+//     //         );
+//     //     this.props.requestChannel();
+//     //     this.props.requestMessages();
+//     // }
+//     useEffect(() => {
+//         requestChannel();
+//         requestMessages();
+//     }, [channelId])
+//     useEffect(() => {
+//         if (stateMessages) {
+//             scrollToBottom
+//         }
+//     }, [stateMessages])
+//     // componentDidUpdate(prevProps) {
+//     //     if (this.props.match.params.channelId !== prevProps.match.params.channelId) {
+//     //         this.props.requestChannel();
+//     //         this.props.requestMessages();
+//     //     };
+//     //     if (this.bottom.current) {
+//     //         this.bottom.current.scrollIntoView({ behavior: "smooth" });
+//     //     }
+//     // }
+//     function randomMessage(num) {
+//         switch (num) {
+//             case 1:    
+//                 return "Playing LEAGUE";
+//             case 2:    
+//                 return "Playing CALL OF DUTY";
+//             case 3:    
+//                 return "Playing FALL GUYS";
+//             case 4:    
+//                 return "Playing MINECRAFT";
+//             case 5:    
+//                 return "Playing STARCRAFT";
+//             case 6:    
+//                 return "Playing TF2";
+//             case 7:    
+//                 return "Playing DOTA";
+//             case 8:    
+//                 return "Playing MARIO CART";
+//             case 9:    
+//                 return "Playing FORTNITE";
+//             case 10:
+//                 return "Playing VALORANT"
+//             default:
+//                 return "Transferring to the NFL";
+//         }
+//     }
+//     if (!channel) return null;
+//     if (!currentServer) return null;
+//     if (!stateMessages) return null;
+//     // if (!this.props) return null;
+//     const serverOwner = currentServer.owner;
+//     const numMembers = currentServer.members.length;
+//     const mappedMessages = stateMessages.map(message => {
+//         return (
+//             <div className="message" key={message.id}>
+//             <img src="white_logo.png" alt="alt text" />
+//             <div className="whole-message">
+//                 <div className="message-author-date">
+//                     {message.author}
+//                     <div className="message-date">{message.created_at.slice(0,10)}</div>
+//                 </div>
+//                 <div className="message-body">{message.body}</div>
+//             </div>
+//             <br />
+//             </div>
+//         );
+//     })
+//     const members = currentServer.members.map(member => {
+//         if (member.username != serverOwner) {
+//             return (
+//                 <ul>
+//                 <li className="member-bar-li">
+//                     <img src="blue_logo.png" alt="/" />
+//                     <div className="member-bar-content">
+//                     <h3 className="memmber-username">
+//                         {member.username}
+//                         {/* {member.username != serverOwner? member.username: null} */}
+//                         </h3>
+//                     <p>
+//                         {randomMessage(Math.floor(Math.random() * 10) + 1)}
+//                     </p>
+//                     </div>
+//                 </li>
+//                 </ul>
+//             );
+//         }
+//     })
+//     return (
+//         <div className="messages-bar-container">
+//             <h1 className="channel-header"># {channel.channel_name}</h1>    
+//             <div className="messages-bar">
+//                 <div className="message-list">
+//                     <div className="message-list-header">
+//                         <img src="channel-header.jpg" alt="" />
+//                         <br />
+//                         <span className="channel-welcome">Welcome to #{channel.channel_name}</span>
+//                         <br />
+//                         <br />
+//                         <span className="channel-start">This is the start of the #{channel.channel_name} channel</span>
+//                     </div>
+//                     {mappedMessages}
+//                 <div ref={messagesEndRef}></div>
+//                 </div>
+//                 <MessageFormContainer channel={channel} />
+//             </div>
+//             {/* <div className="members-bar-container"> */}
+//                 <div className="members-bar">
+//                     <h1 className="members-bar-header">{`Members - ${numMembers}`}</h1>
+//                     <li className="member-bar-li">
+//                         <img src="blue_logo.png" alt="justin goes here" />
+//                         <div className="member-bar-content">
+//                         <h3 className="member-username">{serverOwner}</h3>
+//                         <p>
+//                             {randomMessage(Math.floor(Math.random() * 10) + 1)}
+//                         </p>
+//                         </div>
+//                     </li>
+//                     {members}
+//                 </div>
+//             {/* </div> */}
+//         </div>
+//     );
+// }
+// export default ChannelShow;
 
 
 
@@ -813,117 +995,157 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var CreateChannelForm = /*#__PURE__*/function (_React$Component) {
-  _inherits(CreateChannelForm, _React$Component);
+function CreateChannelForm(_ref) {
+  var errors = _ref.errors,
+      channel = _ref.channel,
+      createChannel = _ref.createChannel,
+      clearErrors = _ref.clearErrors,
+      server = _ref.server,
+      closeModal = _ref.closeModal;
 
-  var _super = _createSuper(CreateChannelForm);
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+      _useState2 = _slicedToArray(_useState, 2),
+      channelName = _useState2[0],
+      setChannelName = _useState2[1];
 
-  function CreateChannelForm(props) {
-    var _this;
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(server.id),
+      _useState4 = _slicedToArray(_useState3, 2),
+      serverId = _useState4[0],
+      setServerId = _useState4[1];
 
-    _classCallCheck(this, CreateChannelForm);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    console.log(serverId);
+    console.log(channelName);
+    clearErrors();
+  }, []);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    clearErrors();
+  }, [channelName]);
 
-    _this = _super.call(this, props);
-    _this.state = {
-      channel_name: "",
-      server_id: _this.props.server.id
-    };
-    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
-    return _this;
+  function handleSubmit(e) {
+    e.preventDefault();
+    clearErrors();
+    var channel = Object.assign({}, {
+      channel_name: channelName,
+      serverId: serverId
+    });
+    createChannel(serverId, channel).then(function () {
+      return closeModal();
+    });
   }
 
-  _createClass(CreateChannelForm, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.props.clearErrors();
-    }
-  }, {
-    key: "update",
-    value: function update(field) {
-      var _this2 = this;
+  function renderErrors() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, errors.map(function (error, i) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        key: "error-".concat(i)
+      }, error);
+    }));
+  }
 
-      return function (e) {
-        return _this2.setState(_defineProperty({}, field, e.currentTarget.value));
-      };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    onSubmit: handleSubmit
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "create-header"
+  }, "CREATE TEXT CHANNEL"), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "create-message"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    className: "channel-name"
+  }, "CHANNEL NAME"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    className: "create-input-box",
+    type: "text",
+    value: channelName,
+    onChange: function onChange(e) {
+      setChannelName(e.target.value);
     }
-  }, {
-    key: "handleSubmit",
-    value: function handleSubmit(e) {
-      var _this3 = this;
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "create-button",
+    type: "submit"
+  }, "Create")), renderErrors());
+}
 
-      e.preventDefault();
-      var serverId = this.props.server.id;
-      var channel = Object.assign({}, this.state);
-      this.props.createChannel(serverId, channel).then(function () {
-        return _this3.props.closeModal();
-      });
-      this.setState({
-        channel_name: '',
-        server_id: ''
-      });
-    }
-  }, {
-    key: "renderErrors",
-    value: function renderErrors() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.errors.map(function (error, i) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: "error-".concat(i)
-        }, error);
-      }));
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        onSubmit: this.handleSubmit
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "create-header"
-      }, "CREATE TEXT CHANNEL"), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "create-message"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "channel-name"
-      }, "CHANNEL NAME"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        className: "create-input-box",
-        type: "text",
-        value: this.state.channel_name,
-        onChange: this.update('channel_name')
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "create-button",
-        type: "submit"
-      }, "Create")), this.renderErrors());
-    }
-  }]);
-
-  return CreateChannelForm;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
-/* harmony default export */ __webpack_exports__["default"] = (CreateChannelForm);
+/* harmony default export */ __webpack_exports__["default"] = (CreateChannelForm); // import React from 'react';
+// class CreateChannelForm extends React.Component {
+//     constructor(props) {
+//         super(props)
+//         this.state = {
+//             channel_name: "",
+//             server_id: this.props.server.id
+//         }
+//         this.handleSubmit = this.handleSubmit.bind(this);
+//     }
+//     componentDidMount() {
+//     this.props.clearErrors();
+//     }
+//     update(field) {
+//         return e => this.setState({
+//             [field]: e.currentTarget.value
+//         });
+//     }
+//     handleSubmit(e) {
+//         e.preventDefault();
+//         const serverId = this.props.server.id
+//         const channel = Object.assign({}, this.state);
+//         this.props.createChannel(serverId, channel)
+//             .then(() => (this.props.closeModal()))
+//         this.setState({
+//             channel_name: '',
+//             server_id: ''
+//         })
+//     }
+//     renderErrors() {
+//         return (
+//         <ul>
+//             {this.props.errors.map((error, i) => (
+//             <li key={`error-${i}`}>{error}</li>
+//             ))}
+//         </ul>
+//         );
+//     }
+//     render() {
+//         return (
+//             <div>
+//                 <form onSubmit={this.handleSubmit}>
+//                     <span className="create-header">CREATE TEXT CHANNEL</span> <br />
+//                     <br />
+//                     <span className="create-message">
+//                     </span>
+//                     <br />
+//                     <br />
+//                     <label>
+//                         <h1 className="channel-name">CHANNEL NAME</h1>
+//                         <input
+//                             className="create-input-box"
+//                             type="text"
+//                             value={this.state.channel_name}
+//                             onChange={this.update('channel_name')}
+//                         />
+//                     </label>
+//                     <button
+//                         className="create-button"
+//                         type="submit"
+//                     >Create
+//                         </button>
+//                 </form>
+//                 {this.renderErrors()}
+//             </div>
+//         )
+//     }
+// }
+// export default (CreateChannelForm);
 
 /***/ }),
 
@@ -966,7 +1188,27 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_create_channel_form__WEBPACK_IMPORTED_MODULE_2__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_create_channel_form__WEBPACK_IMPORTED_MODULE_2__["default"])); // import { connect } from 'react-redux';
+// import { createChannel, clearErrors } from '../../actions/channel_actions';
+// import CreateChannelForm from './create_channel_form';
+// const mapStateToProps = (state) => {
+//     const session = state.session;
+//     const users = state.entities.users
+//     return ({
+//         errors: state.errors.channel,
+//         channel: {
+//             channel_name: "",
+//             server_id: "",
+//         },
+//     })
+// };
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         createChannel: (serverId, channel) => dispatch(createChannel(serverId, channel)),
+//         clearErrors: (errors) => dispatch(clearErrors(errors)),
+//     };
+// };
+// export default connect(mapStateToProps, mapDispatchToProps)(CreateChannelForm);
 
 /***/ }),
 
@@ -1172,163 +1414,237 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
-var CreateServerForm = /*#__PURE__*/function (_React$Component) {
-  _inherits(CreateServerForm, _React$Component);
+function CreateServerForm(_ref) {
+  var errors = _ref.errors,
+      createServer = _ref.createServer,
+      clearErrors = _ref.clearErrors,
+      createChannel = _ref.createChannel,
+      history = _ref.history,
+      closeModal = _ref.closeModal,
+      owner_id = _ref.owner_id;
 
-  var _super = _createSuper(CreateServerForm);
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+      _useState2 = _slicedToArray(_useState, 2),
+      serverName = _useState2[0],
+      setServerName = _useState2[1];
 
-  function CreateServerForm(props) {
-    var _this;
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(owner_id),
+      _useState4 = _slicedToArray(_useState3, 2),
+      ownerId = _useState4[0],
+      setOwnerId = _useState4[1];
 
-    _classCallCheck(this, CreateServerForm);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    clearErrors();
+  }, []);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    clearErrors();
+  }, [serverName]);
 
-    _this = _super.call(this, props);
-    _this.state = {
-      server_name: "",
-      owner_id: _this.props.owner_id
-    };
-    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
-    return _this;
+  function handleSubmit(_x) {
+    return _handleSubmit.apply(this, arguments);
   }
 
-  _createClass(CreateServerForm, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.props.clearErrors();
-    }
-  }, {
-    key: "update",
-    value: function update(field) {
-      var _this2 = this;
+  function _handleSubmit() {
+    _handleSubmit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
+      var server, savedServer, channel, savedChannel;
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              e.preventDefault();
+              _context.next = 3;
+              return clearErrors();
 
-      return function (e) {
-        return _this2.setState(_defineProperty({}, field, e.currentTarget.value));
-      };
-    }
-  }, {
-    key: "handleSubmit",
-    value: function () {
-      var _handleSubmit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
-        var server, savedServer, channel, savedChannel;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return e.preventDefault();
+            case 3:
+              _context.next = 5;
+              return Object.assign({}, {
+                server_name: serverName,
+                owner_id: ownerId
+              });
 
-              case 2:
-                _context.next = 4;
-                return Object.assign({}, this.state);
+            case 5:
+              server = _context.sent;
+              savedServer = null;
+              _context.prev = 7;
+              _context.next = 10;
+              return createServer(server);
 
-              case 4:
-                server = _context.sent;
-                _context.next = 7;
-                return this.props.createServer(server);
+            case 10:
+              savedServer = _context.sent;
+              _context.next = 16;
+              break;
 
-              case 7:
-                savedServer = _context.sent;
-                _context.next = 10;
-                return {
-                  channel_name: "general"
-                };
+            case 13:
+              _context.prev = 13;
+              _context.t0 = _context["catch"](7);
+              console.log("error");
 
-              case 10:
-                channel = _context.sent;
-                _context.next = 13;
-                return this.props.createChannel(savedServer.server.id, channel);
+            case 16:
+              _context.next = 18;
+              return !savedServer;
 
-              case 13:
-                savedChannel = _context.sent;
-                _context.next = 16;
-                return this.props.history.push("/servers/".concat(savedServer.server.id, "/").concat(savedChannel.channel.id));
+            case 18:
+              if (!_context.sent) {
+                _context.next = 20;
+                break;
+              }
 
-              case 16:
-                _context.next = 18;
-                return this.props.closeModal();
+              return _context.abrupt("return", null);
 
-              case 18:
-              case "end":
-                return _context.stop();
-            }
+            case 20:
+              _context.next = 22;
+              return {
+                channel_name: "general"
+              };
+
+            case 22:
+              channel = _context.sent;
+              _context.next = 25;
+              return createChannel(savedServer.server.id, channel);
+
+            case 25:
+              savedChannel = _context.sent;
+              _context.next = 28;
+              return history.push("/servers/".concat(savedServer.server.id, "/").concat(savedChannel.channel.id));
+
+            case 28:
+              closeModal();
+
+            case 29:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this);
-      }));
+        }
+      }, _callee, null, [[7, 13]]);
+    }));
+    return _handleSubmit.apply(this, arguments);
+  }
 
-      function handleSubmit(_x) {
-        return _handleSubmit.apply(this, arguments);
-      }
+  function renderErrors() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, errors.map(function (error, i) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        key: "error-".concat(i)
+      }, error);
+    }));
+  }
 
-      return handleSubmit;
-    }()
-  }, {
-    key: "renderErrors",
-    value: function renderErrors() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.errors.map(function (error, i) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: "error-".concat(i)
-        }, error);
-      }));
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    className: "form",
+    onSubmit: handleSubmit
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "create-header"
+  }, "CREATE YOUR DISCHORD SERVER"), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "create-message"
+  }, "Make a place for you to hang out with your communities and friends"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    className: "server-name"
+  }, "SERVER NAME"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    className: "create-input-box",
+    type: "text",
+    value: serverName,
+    onChange: function onChange(e) {
+      setServerName(e.target.value);
     }
-  }, {
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        className: "form",
-        onSubmit: this.handleSubmit
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "create-header"
-      }, "CREATE YOUR DISCHORD SERVER"), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "create-message"
-      }, "Make a place for you to hang out with your communities and friends"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "server-name"
-      }, "SERVER NAME"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        className: "create-input-box",
-        type: "text",
-        value: this.state.server_name,
-        onChange: this.update("server_name")
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "create-button",
-        type: "submit"
-      }, "Create"), this.renderErrors()));
-    }
-  }]);
-
-  return CreateServerForm;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "create-button",
+    type: "submit"
+  }, "Create"), renderErrors()));
+}
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(CreateServerForm)); // export default withRouter(ServerForm);
+// import React, {useState, useEffect} from 'react';
+// import { withRouter } from "react-router-dom";
+// class CreateServerForm extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       server_name: "",
+//       owner_id: this.props.owner_id,
+//     };
+//     this.handleSubmit = this.handleSubmit.bind(this);
+//   }
+//   componentDidMount() {
+//     this.props.clearErrors();
+//   }
+//   update(field) {
+//     return (e) =>
+//       this.setState({
+//         [field]: e.currentTarget.value,
+//       });
+//   }
+//   async handleSubmit(e) {
+//     await e.preventDefault();
+//     const server = await Object.assign({}, this.state);
+//     let savedServer = await this.props.createServer(server)
+//     // await console.log(savedServer.server.id)
+//     const channel = await {
+//             channel_name: "general"
+//           };
+//     let savedChannel = await this.props.createChannel(savedServer.server.id, channel)
+//     // let savedChannel = await this.props.createGeneralChannel(savedServer.server.id, channel)
+//     // await console.log(savedChannel.channel)
+//     await this.props.history.push(`/servers/${savedServer.server.id}/${savedChannel.channel.id}`)
+//     await this.props.closeModal()
+//   }
+//   renderErrors() {
+//     return (
+//       <ul>
+//         {this.props.errors.map((error, i) => (
+//           <li key={`error-${i}`}>{error}</li>
+//         ))}
+//       </ul>
+//     );
+//   }
+//   render() {
+//     return (
+//       <div>
+//         <form className="form" onSubmit={this.handleSubmit}>
+//           <span className="create-header">CREATE YOUR DISCHORD SERVER</span>{" "}
+//           <br />
+//           <br />
+//           <span className="create-message">
+//             Make a place for you to hang out with your communities and friends
+//           </span>
+//           <br />
+//           <br />
+//           <label>
+//             <h1 className="server-name">SERVER NAME</h1>
+//             <input
+//               className="create-input-box"
+//               type="text"
+//               value={this.state.server_name}
+//               onChange={this.update("server_name")}
+//             />
+//           </label>
+//           <button className="create-button" type="submit">
+//             Create
+//           </button>
+//           {this.renderErrors()}
+//         </form>
+//       </div>
+//     );
+//   }
+// }
+// export default withRouter(CreateServerForm);
+// // export default withRouter(ServerForm);
 
 /***/ }),
 
@@ -1355,10 +1671,7 @@ var mapStateToProps = function mapStateToProps(state) {
   var users = state.entities.users;
   return {
     errors: state.errors.server,
-    server: {
-      server_name: "",
-      owner_id: users[session.id]
-    },
+    owner_id: users[session.id],
     formType: "Create"
   };
 };
@@ -1395,112 +1708,151 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var JoinServerForm = /*#__PURE__*/function (_React$Component) {
-  _inherits(JoinServerForm, _React$Component);
+function JoinServerForm(_ref) {
+  var currentUser = _ref.currentUser,
+      errors = _ref.errors,
+      joinServer = _ref.joinServer,
+      clearErrors = _ref.clearErrors,
+      closeModal = _ref.closeModal;
 
-  var _super = _createSuper(JoinServerForm);
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     inviteCode: "",
+  //   };
+  //   this.handleSubmit = this.handleSubmit.bind(this);
+  // }
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+      _useState2 = _slicedToArray(_useState, 2),
+      inviteCode = _useState2[0],
+      setInviteCode = _useState2[1]; // componentDidMount() {
+  //     this.props.clearErrors();
+  // }
 
-  function JoinServerForm(props) {
-    var _this;
 
-    _classCallCheck(this, JoinServerForm);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    clearErrors();
+  }, []); // update(field) {
+  //   return (e) =>
+  //     this.setState({
+  //       [field]: e.currentTarget.value,
+  //     });
+  // }
 
-    _this = _super.call(this, props);
-    _this.state = {
-      inviteCode: ""
-    };
-    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
-    return _this;
+  function handleSubmit(e) {
+    e.preventDefault();
+    var server = Object.assign({}, {
+      inviteCode: inviteCode
+    });
+    joinServer(server.inviteCode).then(function () {
+      return closeModal();
+    }).then(setInviteCode(""));
   }
 
-  _createClass(JoinServerForm, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.props.clearErrors();
-    }
-  }, {
-    key: "update",
-    value: function update(field) {
-      var _this2 = this;
+  function renderErrors() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, errors.map(function (error, i) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        key: "error-".concat(i)
+      }, error);
+    }));
+  }
 
-      return function (e) {
-        return _this2.setState(_defineProperty({}, field, e.currentTarget.value));
-      };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    onSubmit: handleSubmit
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    className: "join-header"
+  }, "Join a server"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "join-message"
+  }, "Enter your invite code"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    className: "join-input-box",
+    type: "text",
+    value: inviteCode,
+    onChange: function onChange(e) {
+      setInviteCode(e.target.value);
     }
-  }, {
-    key: "handleSubmit",
-    value: function handleSubmit(e) {
-      var _this3 = this;
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "join-button",
+    type: "submit"
+  }, "Join"), renderErrors()));
+}
 
-      e.preventDefault();
-      var server = Object.assign({}, this.state);
-      this.props.joinServer(server.inviteCode).then(function () {
-        return _this3.props.closeModal();
-      });
-      this.setState({
-        inviteCode: ""
-      });
-    }
-  }, {
-    key: "renderErrors",
-    value: function renderErrors() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.errors.map(function (error, i) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: "error-".concat(i)
-        }, error);
-      }));
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        onSubmit: this.handleSubmit
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "join-header"
-      }, "Join a server"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "join-message"
-      }, "Enter your invite code"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        className: "join-input-box",
-        type: "text",
-        value: this.state.inviteCode,
-        onChange: this.update("inviteCode")
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "join-button",
-        type: "submit"
-      }, "Join"), this.renderErrors()));
-    }
-  }]);
-
-  return JoinServerForm;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
-/* harmony default export */ __webpack_exports__["default"] = (JoinServerForm);
+/* harmony default export */ __webpack_exports__["default"] = (JoinServerForm); // import React from 'react';
+// class JoinServerForm extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       inviteCode: "",
+//     };
+//     this.handleSubmit = this.handleSubmit.bind(this);
+//   }
+//   componentDidMount() {
+//       this.props.clearErrors();
+//   }
+//   update(field) {
+//     return (e) =>
+//       this.setState({
+//         [field]: e.currentTarget.value,
+//       });
+//   }
+//   handleSubmit(e) {
+//     e.preventDefault();
+//     const server = Object.assign({}, this.state);
+//     this.props
+//       .joinServer(server.inviteCode)
+//       .then(() => this.props.closeModal());
+//     this.setState({
+//       inviteCode: "",
+//     });
+//   }
+//   renderErrors() {
+//     return (
+//       <ul>
+//         {this.props.errors.map((error, i) => (
+//           <li key={`error-${i}`}>{error}</li>
+//         ))}
+//       </ul>
+//     );
+//   }
+//   render() {
+//     return (
+//       <div>
+//         <form onSubmit={this.handleSubmit}>
+//           <h1 className="join-header">Join a server</h1>
+//           <br />
+//           <label>
+//             <span className="join-message">Enter your invite code</span>
+//             <br />
+//             <input
+//               className="join-input-box"
+//               type="text"
+//               value={this.state.inviteCode}
+//               onChange={this.update("inviteCode")}
+//             />
+//           </label>
+//           <button className="join-button" type="submit">
+//             Join
+//           </button>
+//           {this.renderErrors()}
+//         </form>
+//       </div>
+//     );
+//   }
+// }
+// export default (JoinServerForm);
 
 /***/ }),
 
@@ -1786,6 +2138,36 @@ function ServerShow(_ref) {
 
     getChannels();
   }, []);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    function getChannels() {
+      return _getChannels2.apply(this, arguments);
+    }
+
+    function _getChannels2() {
+      _getChannels2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return requestServer(serverId);
+
+              case 2:
+                _context2.next = 4;
+                return requestChannels(serverId);
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+      return _getChannels2.apply(this, arguments);
+    }
+
+    getChannels();
+  }, [serverId]);
   if (!server) return null;
   var currentUsername = currentUser.username;
   var id = currentUser.id;
@@ -2138,19 +2520,27 @@ function ServersIndex(_ref) {
               case 5:
                 firstServerId = _context.sent;
                 _context.next = 8;
-                return requestChannels(firstServerId);
+                return console.log(firstServerId);
 
               case 8:
+                _context.next = 10;
+                return requestChannels(firstServerId);
+
+              case 10:
                 firstServerChannels = _context.sent;
-                _context.next = 11;
+                _context.next = 13;
                 return Object.values(firstServerChannels.channels)[0].id;
 
-              case 11:
+              case 13:
                 firstChannelId = _context.sent;
-                _context.next = 14;
+                _context.next = 16;
+                return console.log(firstChannelId);
+
+              case 16:
+                _context.next = 18;
                 return history.push("/servers/".concat(firstServerId, "/").concat(firstChannelId));
 
-              case 14:
+              case 18:
               case "end":
                 return _context.stop();
             }
@@ -2161,9 +2551,21 @@ function ServersIndex(_ref) {
     }
 
     ;
-    firstRender(); // return function cleanUp() {
-    // }
-  }, []);
+    firstRender();
+  }, []); // useEffect(() => {
+  //     async function firstRender() {
+  //       let servers = await requestServers();
+  //       let firstServerId = await Object.values(servers.servers)[0].id;
+  //       let firstServerChannels = await requestChannels(firstServerId);
+  //       let firstChannelId = await Object.values(firstServerChannels.channels)[0].id;
+  //       await history.push(
+  //         `/servers/${firstServerId}/${firstChannelId}`
+  //       );
+  //     };
+  //     firstRender()
+  //     // }
+  // }, [])
+
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     requestServers();
   }, [servers.length]);
@@ -2544,319 +2946,532 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
-var SessionForm = /*#__PURE__*/function (_React$Component) {
-  _inherits(SessionForm, _React$Component);
+function SessionForm(_ref) {
+  var errors = _ref.errors,
+      formType = _ref.formType,
+      servers = _ref.servers,
+      channels = _ref.channels,
+      processForm = _ref.processForm,
+      login = _ref.login,
+      clearErrors = _ref.clearErrors,
+      requestServer = _ref.requestServer,
+      requestServers = _ref.requestServers,
+      requestChannels = _ref.requestChannels,
+      currentUser = _ref.currentUser,
+      createServer = _ref.createServer,
+      createChannel = _ref.createChannel,
+      history = _ref.history;
 
-  var _super = _createSuper(SessionForm);
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+      _useState2 = _slicedToArray(_useState, 2),
+      username = _useState2[0],
+      setUsername = _useState2[1];
 
-  function SessionForm(props) {
-    var _this;
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+      _useState4 = _slicedToArray(_useState3, 2),
+      password = _useState4[0],
+      setPassword = _useState4[1];
 
-    _classCallCheck(this, SessionForm);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    clearErrors();
+  }, []);
 
-    _this = _super.call(this, props);
-    _this.state = {
-      username: '',
-      password: ''
-    };
-    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this)); // this.handleDemo = this.handleDemo.bind(this);
-
-    _this.demoUser = _this.demoUser.bind(_assertThisInitialized(_this));
-    return _this;
+  function handleSubmit(_x) {
+    return _handleSubmit.apply(this, arguments);
   }
 
-  _createClass(SessionForm, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.props.clearErrors();
-    }
-  }, {
-    key: "update",
-    value: function update(field) {
-      var _this2 = this;
+  function _handleSubmit() {
+    _handleSubmit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
+      var user, savedUser, server, savedServer, channel, savedChannel;
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return e.preventDefault();
 
-      return function (e) {
-        return _this2.setState(_defineProperty({}, field, e.currentTarget.value));
-      };
-    }
-  }, {
-    key: "handleSubmit",
-    value: function () {
-      var _handleSubmit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(e) {
-        var user, savedUser, server, savedServer, channel, savedChannel;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return e.preventDefault();
+            case 2:
+              _context.next = 4;
+              return clearErrors();
 
-              case 2:
-                _context.next = 4;
-                return Object.assign({}, this.state);
+            case 4:
+              _context.next = 6;
+              return Object.assign({}, {
+                username: username,
+                password: password
+              });
 
-              case 4:
-                user = _context.sent;
-                _context.next = 7;
-                return this.props.processForm(user);
+            case 6:
+              user = _context.sent;
+              _context.next = 9;
+              return processForm(user);
 
-              case 7:
-                savedUser = _context.sent;
-                _context.next = 10;
-                return {
-                  server_name: "general",
-                  owner_id: savedUser.id
-                };
+            case 9:
+              savedUser = _context.sent;
+              _context.next = 12;
+              return {
+                server_name: "general",
+                owner_id: savedUser.id
+              };
 
-              case 10:
-                server = _context.sent;
-                _context.next = 13;
-                return this.props.createServer(server);
+            case 12:
+              server = _context.sent;
+              _context.next = 15;
+              return null;
 
-              case 13:
-                savedServer = _context.sent;
-                _context.next = 16;
-                return {
-                  channel_name: "general"
-                };
+            case 15:
+              savedServer = _context.sent;
+              _context.prev = 16;
+              _context.next = 19;
+              return createServer(server);
 
-              case 16:
-                channel = _context.sent;
-                _context.next = 19;
-                return this.props.createChannel(savedServer.server.id, channel);
+            case 19:
+              savedServer = _context.sent;
+              _context.next = 25;
+              break;
 
-              case 19:
-                savedChannel = _context.sent;
-                _context.next = 22;
-                return this.props.history.push("/servers/".concat(savedServer.server.id, "/").concat(savedChannel.channel.id));
+            case 22:
+              _context.prev = 22;
+              _context.t0 = _context["catch"](16);
+              console.log("error creating server");
 
-              case 22:
-              case "end":
-                return _context.stop();
-            }
+            case 25:
+              _context.next = 27;
+              return {
+                channel_name: "general"
+              };
+
+            case 27:
+              channel = _context.sent;
+              _context.next = 30;
+              return null;
+
+            case 30:
+              savedChannel = _context.sent;
+              _context.prev = 31;
+              _context.next = 34;
+              return createChannel(savedServer.server.id, channel);
+
+            case 34:
+              savedChannel = _context.sent;
+              _context.next = 40;
+              break;
+
+            case 37:
+              _context.prev = 37;
+              _context.t1 = _context["catch"](31);
+              console.log("error creating channel");
+
+            case 40:
+              _context.next = 42;
+              return console.log(savedChannel);
+
+            case 42:
+              _context.prev = 42;
+              _context.next = 45;
+              return history.push("/servers/".concat(savedServer.server.id, "/").concat(savedChannel.channel.id));
+
+            case 45:
+              _context.next = 50;
+              break;
+
+            case 47:
+              _context.prev = 47;
+              _context.t2 = _context["catch"](42);
+              console.log("error pushing to history");
+
+            case 50:
+            case "end":
+              return _context.stop();
           }
-        }, _callee, this);
-      }));
+        }
+      }, _callee, null, [[16, 22], [31, 37], [42, 47]]);
+    }));
+    return _handleSubmit.apply(this, arguments);
+  }
 
-      function handleSubmit(_x) {
-        return _handleSubmit.apply(this, arguments);
+  function renderErrors() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, errors.map(function (error, i) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        key: "error-".concat(i)
+      }, error);
+    }));
+  }
+
+  function loginHeader() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "login-message"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Welcome back!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "We're so excited to see you again!"));
+  }
+
+  function signUpHeader() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "login-message"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Create an account"));
+  }
+
+  function loginMessage() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "need-account"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      className: "session-link",
+      to: "/login"
+    }, "Already have an account?"));
+  }
+
+  function signUpMessage() {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "need-account"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      className: "login-label"
+    }, "Need an account?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      className: "session-link",
+      to: "/signup"
+    }, "  Register"));
+  }
+
+  function demoUser(e) {
+    e.preventDefault();
+    processForm({
+      username: "demo1",
+      password: "password"
+    });
+  } // function demoUser(e) {
+  //   e.preventDefault();
+  //   const demoUser = {
+  //     username: "demo1",
+  //     password: "password",
+  //   };
+  //   let demoUsername = demoUser.username;
+  //   let demoPassword = demoUser.password;
+  //   let interval = 150;
+  //   // let interval = 150;
+  //   let demoLogin = () => {
+  //     processForm({username, password});
+  //   };
+  //   if (username !== demoUsername) {
+  //     let inputUsername = setInterval(() => {
+  //       if (username !== demoUsername) {
+  //         let tempUsername = demoUsername.slice(0, username.length + 1);
+  //         setUsername(tempUsername);
+  //       } else {
+  //         clearInterval(inputUsername);
+  //         fillPassword();
+  //       }
+  //     }, interval);
+  //   }
+  //   let fillPassword = () => {
+  //     let inputPassword = setInterval(() => {
+  //       if (password !== demoPassword) {
+  //         let tempPassword = demoPassword.slice(0, password.length + 1);
+  //         setPassword(tempPassword);
+  //       } else {
+  //         clearInterval(inputPassword);
+  //         console.log("clear intervale")
+  //         demoLogin();
+  //         console.log("login")
+  //       }
+  //     }, interval);
+  //   };
+  // }
+
+
+  return (
+    /*#__PURE__*/
+    // <div className="login-form-container">
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "whole-page"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "/white_logo.png",
+      className: "login-logo",
+      alt: ""
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "dischord"
+    }, "DISCHORD")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      className: "session-form-box",
+      onSubmit: handleSubmit
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+      className: "session-header"
+    }, " ", formType == "login" ? loginHeader() : signUpHeader(), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      className: "login-label"
+    }, "USERNAME", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      className: "input-box",
+      type: "text",
+      value: username,
+      onChange: function onChange(e) {
+        setUsername(e.target.value);
       }
-
-      return handleSubmit;
-    }()
-  }, {
-    key: "renderErrors",
-    value: function renderErrors() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.errors.map(function (error, i) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-          key: "error-".concat(i)
-        }, error);
-      }));
-    }
-  }, {
-    key: "loginHeader",
-    value: function loginHeader() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "login-message"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Welcome back!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "We're so excited to see you again!"));
-    }
-  }, {
-    key: "signUpHeader",
-    value: function signUpHeader() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "login-message"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Create an account"));
-    }
-  }, {
-    key: "loginMessage",
-    value: function loginMessage() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "need-account"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "session-link",
-        to: "/login"
-      }, "Already have an account?"));
-    }
-  }, {
-    key: "signUpMessage",
-    value: function signUpMessage() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "need-account"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        className: "login-label"
-      }, "Need an account?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "session-link",
-        to: "/signup"
-      }, "  Register"));
-    } // handleDemo(e) {
-    //     e.preventDefault();
-    //     const demoUser = {
-    //         username: 'demo1',
-    //         password: 'password'
-    //     }
-    // await this.props.processForm(demoUser)
-    // await this.props.requestServers();
-    // console.log(this.props.servers)
-    // let server = await this.props.servers[0]
-    // await this.props.requestChannels(server.id)
-    // let channel = await this.props.channels[0]
-    // await this.props.history.push(`/servers/${server.id}/${channel.id}`)
-    // }
-
-  }, {
-    key: "demoUser",
-    value: function demoUser(e) {
-      var _this3 = this;
-
-      e.preventDefault();
-      var demoUser = {
-        username: "demo1",
-        password: "password"
-      };
-      var username = demoUser.username,
-          password = demoUser.password;
-      var interval = 150;
-
-      var login = function login() {
-        _this3.props.processForm(_this3.state); // this.props.history.push("/")
-
-      };
-
-      if (this.state.username !== username) {
-        var inputUsername = setInterval(function () {
-          if (_this3.state.username !== username) {
-            var tempUsername = username.slice(0, _this3.state.username.length + 1);
-
-            _this3.setState({
-              username: tempUsername
-            });
-          } else {
-            clearInterval(inputUsername);
-            fillPassword();
-          }
-        }, interval);
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      className: "login-label"
+    }, "PASSWORD", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      className: "input-box",
+      type: "password",
+      value: password,
+      onChange: function onChange(e) {
+        setPassword(e.target.value);
       }
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "button",
+      type: "submit"
+    }, "Continue"), formType == "login" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "button",
+      onClick: demoUser
+    }, "Demo") : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, formType == "login" ? signUpMessage() : loginMessage()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      id: "session-errors"
+    }, renderErrors())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      "class": "personal-div"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      href: "https://www.linkedin.com/in/jaronjlee/",
+      target: "_blank"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "./linkedin.png"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      href: "https://github.com/jaronjlee/",
+      target: "_blank"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "./personalsite.png"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      href: "https://github.com/jaronjlee/discord_clone",
+      target: "_blank"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "./github.svg"
+    })))))
+  );
+}
 
-      var fillPassword = function fillPassword() {
-        var inputPassword = setInterval(function () {
-          if (_this3.state.password !== password) {
-            var tempPassword = password.slice(0, _this3.state.password.length + 1);
-
-            _this3.setState({
-              password: tempPassword
-            });
-          } else {
-            clearInterval(inputPassword);
-            login();
-          }
-        }, interval);
-      }; // await this.props.requestServers();
-      // console.log(this.props.servers)
-      // let server = await this.props.servers[0]
-      // await this.props.requestChannels(server.id)
-      // let channel = await this.props.channels[0]
-      // await this.props.history.push(`/servers/${server.id}/${channel.id}`)
-
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var formType = this.props.formType;
-      return (
-        /*#__PURE__*/
-        // <div className="login-form-container">
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "whole-page"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: "/white_logo.png",
-          className: "login-logo",
-          alt: ""
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "dischord"
-        }, "DISCHORD")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-          className: "session-form-box",
-          onSubmit: this.handleSubmit
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
-          className: "session-header"
-        }, " ", formType == "login" ? this.loginHeader() : this.signUpHeader(), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-          className: "login-label"
-        }, "USERNAME", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          className: "input-box",
-          type: "text",
-          value: this.state.username,
-          onChange: this.update("username")
-        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-          className: "login-label"
-        }, "PASSWORD", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          className: "input-box",
-          type: "password",
-          value: this.state.password,
-          onChange: this.update("password")
-        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          className: "button",
-          type: "submit"
-        }, "Continue"), formType == "login" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          className: "button",
-          onClick: this.demoUser
-        }, "Demo") : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, formType == "login" ? this.signUpMessage() : this.loginMessage()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          id: "session-errors"
-        }, this.renderErrors())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("footer", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          "class": "personal-div"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-          href: "https://www.linkedin.com/in/jaronjlee/",
-          target: "_blank"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: "./linkedin.png"
-        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-          href: "https://github.com/jaronjlee/",
-          target: "_blank"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: "./personalsite.png"
-        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-          href: "https://github.com/jaronjlee/discord_clone",
-          target: "_blank"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: "./github.svg"
-        })))))
-      );
-    }
-  }]);
-
-  return SessionForm;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
-/* harmony default export */ __webpack_exports__["default"] = (SessionForm);
+/* harmony default export */ __webpack_exports__["default"] = (SessionForm); // import React from 'react';
+// import { Link } from 'react-router-dom';
+// class SessionForm extends React.Component {
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//             username: '',
+//             password: ''
+//         };
+//         this.handleSubmit = this.handleSubmit.bind(this);
+//         // this.handleDemo = this.handleDemo.bind(this);
+//         this.demoUser = this.demoUser.bind(this);
+//     }
+//     componentDidMount() {
+//       this.props.clearErrors();
+//     }
+//     update(field) {
+//         return e => this.setState({
+//             [field]: e.currentTarget.value
+//         });
+//     }
+//     async handleSubmit(e) {
+//         await e.preventDefault();
+//         await this.props.clearErrors()
+//         const user = await Object.assign({}, this.state);
+//         let savedUser = await this.props.processForm(user);
+//         await console.log(savedUser)
+//         let server = await {
+//           server_name: "general",
+//           owner_id: savedUser.id
+//         }
+//         let savedServer = await null;
+//         try {
+//           savedServer = await this.props.createServer(server)
+//         } catch (error) {
+//           console.log("error creating server")
+//         }
+//         await console.log(savedServer)
+//         const channel = await {
+//             channel_name: "general"
+//           };
+//         let savedChannel = await null;
+//         try {
+//           savedChannel = await this.props.createChannel(savedServer.server.id, channel)
+//         } catch (error) {
+//           console.log("error creating channel")
+//         }
+//         await console.log(savedChannel)
+//         try {
+//           await this.props.history.push(`/servers/${savedServer.server.id}/${savedChannel.channel.id}`)
+//         } catch (error) {
+//           console.log("error pushing to history")
+//         }
+//     }
+//     renderErrors() {
+//         return (
+//           <ul>
+//             {this.props.errors.map((error, i) => (
+//               <li key={`error-${i}`}>{error}</li>
+//             ))}
+//           </ul>
+//         );
+//     }
+//     loginHeader() {
+//         return (
+//             <div className="login-message">
+//                 <h1>Welcome back!</h1>
+//                 <br/>
+//                 <p>We're so excited to see you again!</p>
+//             </div>
+//         )
+//     }
+//     signUpHeader() {
+//         return (
+//             <div className="login-message">
+//                 <h1>Create an account</h1>
+//             </div>
+//         )
+//     }
+//     loginMessage() {
+//         return (
+//           <div className="need-account">
+//             <Link className="session-link" to="/login">Already have an account?</Link>
+//           </div>
+//         )
+//     }
+//     signUpMessage() {
+//         return (
+//             <div className="need-account">
+//                 <label className="login-label">Need an account?</label>
+//                 <Link className="session-link" to="/signup">  Register</Link>
+//             </div>
+//         )
+//     }
+// demoUser(e) {
+//   e.preventDefault();
+//   const demoUser = {
+//     username: "demo1",
+//     password: "password",
+//   };
+//   let { username, password } = demoUser;
+//   let interval = 150;
+//   let login = () => {
+//     this.props.processForm(this.state);
+//     // this.props.history.push("/")
+//   };
+//   if (this.state.username !== username) {
+//     let inputUsername = setInterval(() => {
+//       if (this.state.username !== username) {
+//         let tempUsername = username.slice(0, this.state.username.length + 1);
+//         this.setState({ username: tempUsername });
+//       } else {
+//         clearInterval(inputUsername);
+//         fillPassword();
+//       }
+//     }, interval);
+//   }
+//   let fillPassword = () => {
+//     let inputPassword = setInterval(() => {
+//       if (this.state.password !== password) {
+//         let tempPassword = password.slice(0, this.state.password.length + 1);
+//         this.setState({ password: tempPassword });
+//       } else {
+//         clearInterval(inputPassword);
+//         login();
+//       }
+//     }, interval);
+//   };
+// await this.props.requestServers();
+// console.log(this.props.servers)
+// let server = await this.props.servers[0]
+// await this.props.requestChannels(server.id)
+// let channel = await this.props.channels[0]
+// await this.props.history.push(`/servers/${server.id}/${channel.id}`)
+// }
+//     render() {
+//         const {formType} = this.props
+//         return (
+//           // <div className="login-form-container">
+//           <div className="whole-page">
+//             <header>
+//               <img src="/white_logo.png" className="login-logo" alt="" />
+//               <div className="dischord">DISCHORD</div>
+//             </header>
+//             <br />
+//             <form className="session-form-box" onSubmit={this.handleSubmit}>
+//               <h2 className="session-header">
+//                 {" "}
+//                 {formType == "login"
+//                   ? this.loginHeader()
+//                   : this.signUpHeader()}{" "}
+//               </h2>
+//               <br />
+//               <label className="login-label">
+//                 USERNAME
+//                 <br />
+//                 <input
+//                   className="input-box"
+//                   type="text"
+//                   value={this.state.username}
+//                   onChange={this.update("username")}
+//                 />
+//               </label>
+//               <br />
+//               <label className="login-label">
+//                 PASSWORD
+//                 <br />
+//                 <input
+//                   className="input-box"
+//                   type="password"
+//                   value={this.state.password}
+//                   onChange={this.update("password")}
+//                 />
+//               </label>
+//               <br />
+//               <button className="button" type="submit">
+//                 Continue
+//               </button>
+//               {formType == "login" ? (
+//                 <button className="button" onClick={this.demoUser}>
+//                 {/* // <button className="button" onClick={this.handleDemo}> */}
+//                   Demo
+//                 </button>
+//               ) : null}
+//               <br />
+//               <div>
+//                 {formType == "login"
+//                   ? this.signUpMessage()
+//                   : this.loginMessage()}
+//               </div>
+//               <br />
+//               <br />
+//               <div id="session-errors">
+//                   {this.renderErrors()}
+//               </div>
+//             </form>
+//             <footer>
+//                 <div class="personal-div">
+//                   <a href="https://www.linkedin.com/in/jaronjlee/" target="_blank">
+//                     <img src="./linkedin.png"></img>
+//                   </a>
+//                   <a href="https://github.com/jaronjlee/" target="_blank">
+//                     <img src="./personalsite.png"></img>
+//                   </a>
+//                   <a href="https://github.com/jaronjlee/discord_clone" target="_blank">
+//                     <img src="./github.svg"></img>
+//                   </a>
+//                 </div>
+//             </footer>
+//           </div>
+//         );
+//     }
+// }
+// export default SessionForm;
 
 /***/ }),
 

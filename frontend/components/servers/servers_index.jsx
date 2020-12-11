@@ -19,23 +19,37 @@ function ServersIndex({
 
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [showJoinModal, setShowJoinModal] = useState(false);
-
+    
     useEffect(() => {
-        async function firstRender() {
+      async function firstRender() {
           let servers = await requestServers();
           let firstServerId = await Object.values(servers.servers)[0].id;
+          await console.log(firstServerId)
           let firstServerChannels = await requestChannels(firstServerId);
           let firstChannelId = await Object.values(firstServerChannels.channels)[0].id;
+          await console.log(firstChannelId)
           await history.push(
             `/servers/${firstServerId}/${firstChannelId}`
           );
         };
 
-        firstRender();
-        // return function cleanUp() {
-
-        // }
+        firstRender()
     }, [])
+
+    // useEffect(() => {
+    //     async function firstRender() {
+    //       let servers = await requestServers();
+    //       let firstServerId = await Object.values(servers.servers)[0].id;
+    //       let firstServerChannels = await requestChannels(firstServerId);
+    //       let firstChannelId = await Object.values(firstServerChannels.channels)[0].id;
+    //       await history.push(
+    //         `/servers/${firstServerId}/${firstChannelId}`
+    //       );
+    //     };
+
+    //     firstRender()
+    //     // }
+    // }, [])
 
     useEffect(() => {
         requestServers();
