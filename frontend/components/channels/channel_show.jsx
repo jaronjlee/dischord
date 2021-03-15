@@ -33,7 +33,6 @@ class ChannelShow extends React.Component {
         if (this.props.match.params.channelId !== prevProps.match.params.channelId) {
             this.props.requestChannel();
             this.props.requestMessages();
-            // this.bottom.current.scrollIntoView({ behavior: "smooth" });
         };
         
         if (this.bottom.current) {
