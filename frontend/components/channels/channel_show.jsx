@@ -80,13 +80,10 @@ class ChannelShow extends React.Component {
         const currentServer = this.props.currentServer;
         const serverOwner = this.props.currentServer.owner;
         const numMembers = this.props.currentServer.members.length;
-        // console.log(currentServer)
-        // console.log(currentServer.members[0].username)
 
         const messages = this.props.messages.map(message => {
             return (
               <div className="message" key={message.id}>
-                {/* <div className="message-icon">{message.author.slice(0,1)}</div> */}
                 <img src="white_logo.png" alt="alt text" />
                 <div className="whole-message">
                     <div className="message-author-date">
@@ -109,7 +106,6 @@ class ChannelShow extends React.Component {
                       <div className="member-bar-content">
                         <h3 className="memmber-username">
                             {member.username}
-                            {/* {member.username != serverOwner? member.username: null} */}
                             </h3>
                         <p>
                           {this.randomMessage(Math.floor(Math.random() * 10) + 1)}
@@ -140,7 +136,6 @@ class ChannelShow extends React.Component {
                     </div>
                     <MessageFormContainer channel={channel} />
                 </div>
-                {/* <div className="members-bar-container"> */}
                     <div className="members-bar">
                         <h1 className="members-bar-header">{`Members - ${numMembers}`}</h1>
                         <li className="member-bar-li">
@@ -154,7 +149,6 @@ class ChannelShow extends React.Component {
                         </li>
                         {members}
                     </div>
-                {/* </div> */}
             </div>
         );
     }
